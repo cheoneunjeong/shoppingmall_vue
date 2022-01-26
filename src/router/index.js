@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login'
 import OAuth from '../views/OAuth'
+import Mypage from '../views/Mypage'
 
 Vue.use(VueRouter)
 
@@ -29,6 +30,11 @@ const routes = [
     path: '/auth',
     name: 'OAuth',
     component: OAuth
+  },
+  {
+    path: '/mypage',
+    name: 'Mypage',
+    component: Mypage
   },
 ]
 

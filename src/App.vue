@@ -1,7 +1,11 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
-      <v-list-item router :to="{ name: 'Login' }">
+      <v-list-item
+        v-if="this.UserInfo.login_success === false"
+        router
+        :to="{ name: 'Login' }"
+      >
         <v-list-item-action>
           <v-icon>mdi-home</v-icon>
         </v-list-item-action>
@@ -9,7 +13,7 @@
           <v-list-item-title>Login</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item>
+      <v-list-item v-else router :to="{ name: 'Mypage' }">
         <v-list-item-action>
           <font-awesome-icon icon="star" />
         </v-list-item-action>
@@ -17,30 +21,23 @@
           <v-list-item-title>My Page</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item>
-        <v-list-item-action>
-          <v-icon>mdi-card-text-outline</v-icon>
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Board</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
-      <v-list-item>
-        <v-list-item-action>
-          <font-awesome-icon icon="user-friends" />
-        </v-list-item-action>
-        <v-list-item-content>
-          <v-list-item-title>Members</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
     </v-navigation-drawer>
 
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>shoppingmall</v-toolbar-title>
+      <v-toolbar-title>
+        <v-btn depressed @click="Home()"> shoppingmall </v-btn>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn depressed @click="logout()"> logOut</v-btn>
+      <v-btn
+        v-if="this.UserInfo.login_success === true"
+        depressed
+        @click="logout()"
+      >
+        logOut
+      </v-btn>
+      <v-btn depressed @click="state()"> state </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -55,7 +52,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState } from "vuex";
+import Route from "@/router/index";
 export default {
   data() {
     return {
@@ -64,11 +62,17 @@ export default {
   },
 
   computed: {
-    ...mapState([]),
+    ...mapState(["UserInfo"]),
   },
   methods: {
+    Home() {
+      Route.push("/");
+    },
     logout() {
       this.$store.dispatch("kakaoLogout");
+    },
+    state() {
+      console.log(this.$store.state);
     },
   },
   // created() {
