@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login'
 import OAuth from '../views/OAuth'
 import Mypage from '../views/Mypage'
+import SignUP from '../views/SignUP'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [
     path: '/mypage',
     name: 'Mypage',
     component: Mypage
+  },
+  {
+    path: '/signup',
+    name: 'SignUP',
+    component: SignUP
   },
 ]
 

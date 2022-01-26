@@ -29,8 +29,14 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary">Login</v-btn>
-            <v-btn color="#ECEFF1">Sign Up</v-btn>
+            <v-btn
+              color="primary"
+              @click="LoginUser({ username: username, password: password })"
+              >Login</v-btn
+            >
+            <v-btn color="#ECEFF1" router :to="{ name: 'SignUP' }"
+              >Sign Up</v-btn
+            >
           </v-card-actions>
         </v-card>
       </v-flex>
@@ -54,7 +60,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions([]),
+    ...mapActions(["LoginUser"]),
   },
   computed: {
     ...mapState([]),
