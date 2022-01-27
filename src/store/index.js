@@ -6,8 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    UserInfo: { id: '', name: '', auth: [], login_success: false, login_error: false },
-    User_Token: null,
+    UserInfo: { id: null, name: null, auth: [], token: null, login_success: false, login_error: false },
     Kakao_Token: null
   },
   mutations: {
@@ -29,9 +28,9 @@ export default new Vuex.Store({
       state.UserInfo.id = data.username
       state.UserInfo.name = data.name
       state.UserInfo.auth = data.roles
+      state.UserInfo.token = data.token
       state.UserInfo.login_success = true
       state.UserInfo.login_error = false
-      state.User_Token = data.token
     }
   },
   actions: {
@@ -39,10 +38,9 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios.get('http://localhost:9010/api/public/kakaologin', { params: { code: payload } })
           .then(Response => {
-            if (Response.data != null) {
-              commit('SET_KAKAOUSER', Response.data)
-              Route.push('/')
-            }
+            console.log(Response.data)
+            commit("SET_USER", Response.data)
+            Route.push('/')
           })
           .catch(Error => {
             console.log('kakaoLogin_error')
