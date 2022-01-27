@@ -33,7 +33,7 @@
       <v-btn
         v-if="this.UserInfo.login_success === true"
         depressed
-        @click="logout()"
+        @click="logOut()"
       >
         logOut
       </v-btn>
@@ -68,19 +68,25 @@ export default {
     Home() {
       Route.push("/");
     },
-    logout() {
-      this.$store.dispatch("kakaoLogout");
+    logOut() {
+      // if (this.UserInfo.oauth === null) {
+      //   this.$store.commit('logOut')
+      // } else {
+      //   this.$store.dispatch("kakaoLogout");
+      // }
+      this.$store.commit("LOGOUT");
     },
     state() {
       console.log(this.$store.state);
     },
   },
-  // created() {
-  //   if(this.Userinfo.User_token === null && localStorage.getItem("token") !== null) {
-  //     this.$store.commit("INSERT_TOKEN"),
-  //     this.$store.dispatch('UnpackToken')
-  //     console.log("tttttt"+localStorage.getItem("token"))
-  //   }
-  // }
+  created() {
+    if (
+      this.UserInfo.token === null &&
+      localStorage.getItem("token") !== null
+    ) {
+      this.$store.dispatch("UnpackToken");
+    }
+  },
 };
 </script>

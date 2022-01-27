@@ -2,76 +2,45 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import Route from '../router/index'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    UserInfo: { id: null, name: null, auth: [], token: null, login_success: false, login_error: false },
-    Kakao_Token: null
+    UserInfo: { id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false },
   },
   mutations: {
-    SET_KAKAOUSER(state, data) {
-      state.UserInfo.id = data.user.k_email
-      state.UserInfo.name = data.user.k_name
-      state.UserInfo.login_success = true
-      state.UserInfo.login_error = false
-      state.Kakao_Token = data.access_token
-    },
-    LOGOUT_KAKAOUSER(state) {
-      state.UserInfo.id = null
-      state.UserInfo.name = null
-      state.UserInfo.login_success = false
-      state.UserInfo.login_error = false
-      state.Kakao_Token = null
-    },
     SET_USER(state, data) {
       state.UserInfo.id = data.username
       state.UserInfo.name = data.name
       state.UserInfo.auth = data.roles
       state.UserInfo.token = data.token
+      state.UserInfo.oauth = data.oauth
+      state.UserInfo.login_success = true
+      state.UserInfo.login_error = false
+    },
+    LOGOUT(state) {
+      state.UserInfo.id = null
+      state.UserInfo.name = null
+      state.UserInfo.auth = null
+      state.UserInfo.token = null
+      state.UserInfo.oauth = null
+      state.UserInfo.login_success = false
+      state.UserInfo.login_error = false
+      localStorage.removeItem('token')
+      console.log("로그아웃?" + localStorage.getItem('token'))
+    },
+    SET_USER_REFRESH(state, data) {
+      state.UserInfo.id = data.username
+      state.UserInfo.name = data.name
+      state.UserInfo.auth = data.roles
+      state.UserInfo.token = data.token
+      state.UserInfo.oauth = data.oauth
       state.UserInfo.login_success = true
       state.UserInfo.login_error = false
     }
   },
   actions: {
-    kakaoLogin({ commit, state }, payload) {
-      return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/kakaologin', { params: { code: payload } })
-          .then(Response => {
-            console.log(Response.data)
-            commit("SET_USER", Response.data)
-            Route.push('/')
-          })
-          .catch(Error => {
-            console.log('kakaoLogin_error')
-          })
-      })
-    },
-    kakaoLogout({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/kakaologout', { params: { code: state.Kakao_Token } })
-          .then(Response => {
-            commit('LOGOUT_KAKAOUSER')
-            console.log('kakaologout_success')
-          })
-          .catch(Error => {
-            console.log('kakaoLogout_error')
-          })
-      })
-    },
-    LoginUser({ commit, state }, payload) {
-      return new Promise((resolve, reject) => {
-        axios.post('http://localhost:9010/api/public/login', payload)
-          .then(Response => {
-            console.log(Response.data)
-            commit("SET_USER", Response.data)
-            Route.push('/')
-          })
-          .catch(Error => {
-            console.log('login_error')
-          })
-      })
-    },
     NewUsers({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.post('http://localhost:9010/api/public/user', payload)
@@ -86,8 +55,59 @@ export default new Vuex.Store({
             alert("중복된 아이디가 있습니다.")
           })
       })
+    },
+    LoginUser({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.post('http://localhost:9010/api/public/login', payload)
+          .then(Response => {
+            localStorage.setItem('token', Response.data.token)
+            commit("SET_USER", Response.data)
+            Route.push('/')
+          })
+          .catch(Error => {
+            console.log('login_error')
+          })
+      })
+    },
+    kakaoLogin({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get('http://localhost:9010/api/public/kakaologin', { params: { code: payload } })
+          .then(Response => {
+            localStorage.setItem('token', Response.data.token)
+            commit("SET_USER", Response.data)
+            Route.push('/')
+          })
+          .catch(Error => {
+            console.log('kakaoLogin_error')
+          })
+      })
+    },
+    // kakaoUnlink({ commit, state }) {
+    //   return new Promise((resolve, reject) => {
+    //     axios.get('http://localhost:9010/api/public/kakaoUnlink', { params: { code:  } })
+    //       .then(Response => {
+    //         commit('LOGOUT_KAKAOUSER')
+    //         console.log('kakaologout_success')
+    //       })
+    //       .catch(Error => {
+    //         console.log('kakaoLogout_error')
+    //       })
+    //   })
+    // },
+    UnpackToken({ commit }) {
+      return new Promise((resolve, reject) => {
+        console.log("시작")
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/public/unpackToken')
+          .then(Response => {
+            commit('SET_USER_REFRESH', Response.data)
+          })
+          .catch(Error => {
+            alert("로그인 유효시간이 만료되었습니다.")
+            console.log('UnpackToken_error')
+          })
+      })
     }
-
   },
   modules: {
   }
