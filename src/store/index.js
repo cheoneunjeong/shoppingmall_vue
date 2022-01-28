@@ -29,6 +29,7 @@ export default new Vuex.Store({
       state.UserInfo.login_error = false
       localStorage.removeItem('token')
       console.log("로그아웃?" + localStorage.getItem('token'))
+      Route.push('/')
     },
     SET_USER_REFRESH(state, data) {
       state.UserInfo.id = data.username
@@ -43,7 +44,7 @@ export default new Vuex.Store({
   actions: {
     NewUsers({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:9010/api/public/user', payload)
+        axios.post('http://localhost:9010/api/public/newUser', payload)
           .then(Response => {
             console.log(Response.data)
             if (Response.data === "success") {
@@ -82,29 +83,32 @@ export default new Vuex.Store({
           })
       })
     },
-    // kakaoUnlink({ commit, state }) {
-    //   return new Promise((resolve, reject) => {
-    //     axios.get('http://localhost:9010/api/public/kakaoUnlink', { params: { code:  } })
-    //       .then(Response => {
-    //         commit('LOGOUT_KAKAOUSER')
-    //         console.log('kakaologout_success')
-    //       })
-    //       .catch(Error => {
-    //         console.log('kakaoLogout_error')
-    //       })
-    //   })
-    // },
+    KakaoUnlink({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/public/kakaoUnlink')
+          .then(Response => {
+            commit('LOGOUT')
+            console.log('kakaologout_success')
+          })
+          .catch(Error => {
+            console.log('kakaoLogout_error')
+          })
+      })
+    },
     UnpackToken({ commit }) {
       return new Promise((resolve, reject) => {
         console.log("시작")
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.get('http://localhost:9010/api/public/unpackToken')
           .then(Response => {
+            console.log(Response.data)
             commit('SET_USER_REFRESH', Response.data)
           })
           .catch(Error => {
             alert("로그인 유효시간이 만료되었습니다.")
             console.log('UnpackToken_error')
+            Route.push('/')
           })
       })
     }

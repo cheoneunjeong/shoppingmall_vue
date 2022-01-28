@@ -34,7 +34,7 @@
               @click="LoginUser({ username: username, password: password })"
               >Login</v-btn
             >
-            <v-btn color="#ECEFF1" router :to="{ name: 'SignUP' }"
+            <v-btn color="#ECEFF1" router :to="{ name: 'SignUp' }"
               >Sign Up</v-btn
             >
           </v-card-actions>
@@ -53,6 +53,8 @@
 <script>
 import { mapActions, mapState } from "vuex";
 export default {
+  name: "Login",
+
   data() {
     return {
       username: null,

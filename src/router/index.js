@@ -1,18 +1,40 @@
+import store from '@/store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login'
 import OAuth from '../views/OAuth'
 import Mypage from '../views/Mypage'
-import SignUP from '../views/SignUP'
+import SignUp from '../views/SignUp'
 
 Vue.use(VueRouter)
+
+const rejectAuthUser = (to, from, next) => {
+  if (store.state.UserInfo.login_success === true) {
+    next('/')
+  } else {
+    next()
+  }
+}
+
+const onlyAuthUser = (to, from, next) => {
+  if (store.state.UserInfo.login_success === true) {
+    next()
+  } else {
+    next('/login')
+  }
+}
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      { path: "login", name: 'Login', component: Login, beforeEnter: rejectAuthUser },
+      { path: "mypage", name: 'Mypage', component: Mypage, beforeEnter: onlyAuthUser },
+      { path: "signup", name: 'SignUp', component: SignUp },
+    ]
   },
   {
     path: '/about',
@@ -23,24 +45,9 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: Login
-  },
-  {
     path: '/auth',
     name: 'OAuth',
-    component: OAuth
-  },
-  {
-    path: '/mypage',
-    name: 'Mypage',
-    component: Mypage
-  },
-  {
-    path: '/signup',
-    name: 'SignUP',
-    component: SignUP
+    component: OAuth,
   },
 ]
 
