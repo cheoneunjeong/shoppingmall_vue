@@ -7,7 +7,7 @@
         :to="{ name: 'Login' }"
       >
         <v-list-item-action>
-          <v-icon>mdi-home</v-icon>
+         <font-awesome-icon icon="home" />
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>Login</v-list-item-title>
@@ -21,13 +21,32 @@
           <v-list-item-title>My Page</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
+       <v-list-item router :to="{ name: 'Shop' }">
+        <v-list-item-action>
+          <font-awesome-icon icon="store" />
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Shopping Mall</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <!-- <v-list-item 
+      v-if="this.UserInfo.auth.indexOf('ROLE_ADMIN') !== -1"
+      router :to="{ name: 'Admin' }"> -->
+      <v-list-item  router :to="{ name: 'Admin' }">
+        <v-list-item-action>
+          <font-awesome-icon icon="wrench" />
+        </v-list-item-action>
+        <v-list-item-content>
+          <v-list-item-title>Admin Page</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
     </v-navigation-drawer>
 
     <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>
-        <v-btn depressed @click="Home()"> shoppingmall </v-btn>
+        <v-btn depressed @click="Home()"> project </v-btn>
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-btn
@@ -37,7 +56,6 @@
       >
         logOut
       </v-btn>
-      <v-btn depressed @click="state()"> state </v-btn>
     </v-app-bar>
 
     <v-main>
@@ -71,9 +89,6 @@ export default {
     },
     logOut() {
       this.$store.commit("LOGOUT");
-    },
-    state() {
-      console.log(this.$store.state);
     },
   },
 };
