@@ -9,6 +9,8 @@ import SignUp from '../views/Home/SignUp'
 import HelloWorld from '../components/HelloWorld'
 import Shop from '@/views/Shop/Shop'
 import Admin from '@/views/Admin/Admin'
+import Category from '@/views/Admin/Category'
+import AddCategory from '@/views/Admin/AddCategory'
 
 Vue.use(VueRouter)
 
@@ -58,12 +60,17 @@ const routes = [
     path: '/admin',
     name: 'Admin',
     component: Admin,
+    children: [
+      { path: "category", name: 'Category', component: Category },
+      { path: "addCategory", name: 'AddCategory', component: AddCategory },
+    ]
   },
   {
     path: '/auth',
     name: 'OAuth',
     component: OAuth,
   },
+
 ]
 
 const router = new VueRouter({

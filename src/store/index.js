@@ -8,6 +8,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     UserInfo: { id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false },
+    Categories: [],
   },
   mutations: {
     SET_USER(state, data) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
       state.UserInfo.oauth = data.oauth
       state.UserInfo.login_success = true
       state.UserInfo.login_error = false
+    },
+    SET_CATEGORIES(state, data) {
+      state.Categories = data
     }
   },
   actions: {
@@ -111,8 +115,48 @@ export default new Vuex.Store({
             Route.push('/')
           })
       })
-    }
+    },
+    Get_Categories({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/admin/category')
+          .then(Response => {
+            commit('SET_CATEGORIES', Response.data)
+          })
+          .catch(Error => {
+            console.log('Get_Categories_error')
+          })
+      })
+
+    },
+    Create_category({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/category', payload)
+          .then(Response => {
+            commit('SET_CATEGORIES', Response.data)
+            Route.push('/admin/category')
+          })
+          .catch(Error => {
+            console.log("Create_category_error")
+          })
+      })
+    },
+    Create_ChildCategory({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/childCategory', payload)
+          .then(Response => {
+            commit('SET_CATEGORIES', Response.data)
+            Route.push('/admin/category')
+          })
+          .catch(Error => {
+            console.log("Create_category_error")
+          })
+      })
+    },
   },
+
   modules: {
   }
 })

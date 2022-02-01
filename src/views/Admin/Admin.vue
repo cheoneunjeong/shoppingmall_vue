@@ -8,7 +8,7 @@
         value="true"
         mini-variant.sync="mini"
       >
-        <v-list-item>
+        <v-list-item router :to="{ path: '/' }">
           <v-list-item-action>
             <font-awesome-icon icon="long-arrow-alt-left" />
           </v-list-item-action>
@@ -24,6 +24,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-list-item>
+            <v-list-item-action> </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>환경설정</v-list-item-title>
             </v-list-item-content>
@@ -60,6 +61,18 @@
               <font-awesome-icon icon="shopping-cart" />
             </v-list-item-content>
           </v-list-item>
+          <v-list-item>
+            <v-list-item-action> </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>쇼핑몰 관리</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item router :to="{ name: 'Category' }">
+            <v-list-item-action> </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>분류관리</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list-group>
         <v-list-group>
           <v-list-item slot="activator">
@@ -94,6 +107,11 @@
         </v-btn>
       </v-app-bar>
     </v-card>
+    <v-main>
+      <v-container class="fill-height" fluid>
+        <router-view />
+      </v-container>
+    </v-main>
   </div>
 </template>
 
