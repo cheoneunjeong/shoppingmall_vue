@@ -5,30 +5,23 @@
         <v-list-item>
           <v-list-item-content
             ><p class="text-md-center">
-              {{ this.$route.query.code }} 하위분류추가
+              {{ this.item.name }} 수정
             </p></v-list-item-content
           >
         </v-list-item>
         <v-divider></v-divider>
         <v-list-item>
-          <template v-slot="{}">
+          <template>
             <v-list-item-action style="width: 150px">
               <p>분류코드</p>
             </v-list-item-action>
-
             <v-list-item-content>
               <v-list-item-title
-                ><v-col>
-                  <v-text-field
-                    v-model="code"
-                    label="code"
-                  ></v-text-field> </v-col
-              ></v-list-item-title>
+                ><p>{{ this.item.code }}</p></v-list-item-title
+              >
               <v-list-item-subtitle
-                >하위분류 추가시, 자동으로 보여지는 분류코드를 사용하시길
-                권해드립니다.<br />
-                분류코드는 나중에 수정이 되지 않으므로 신중하게 결정하여
-                사용하십시오.</v-list-item-subtitle
+                ><v-btn small>미리보기</v-btn><v-btn small>하위분류추가</v-btn
+                ><v-btn small>상품리스트</v-btn></v-list-item-subtitle
               >
             </v-list-item-content>
           </template>
@@ -108,58 +101,23 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      c: "",
-      name: "",
-      stock: "",
-      checked: false,
+      item: this.$route.query.item,
+      name: this.$route.query.item.name,
+      stock: this.$route.query.item.stock,
+      checked: this.$route.query.item.sale,
     };
   },
   methods: {
     submit() {
-      if (!this.$route.query.code) {
-        let category = {
-          code: this.code,
-          name: this.name,
-          stock: this.stock,
-          sale: this.checked,
-        };
-        this.$store.dispatch("Create_category", category);
-      } else {
-        let category = {
-          code: this.code,
-          name: this.name,
-          stock: this.stock,
-          sale: this.checked,
-          groups: this.$route.query.groups,
-          orders: this.$route.query.orders,
-          depth: this.$route.query.depth,
-        };
-        this.$store.dispatch("Create_ChildCategory", category);
-      }
+      let category = {
+        code: this.item.code,
+        name: this.name,
+        stock: this.stock,
+        sale: this.checked,
+      };
+      this.$store.dispatch("Edit_Category", category);
     },
   },
-  computed: {
-    ...mapState(["Categories"]),
-    code: {
-      get() {
-        if (!this.$route.query.code || !!this.c) {
-          return this.c;
-        } else {
-          let n = this.$route.query.code + "10";
-          for (let i = 0; i < this.Categories.length; i++) {
-            while (this.Categories[i].code + "" === n) {
-              n = n * 1 + 10 + "";
-              continue;
-            }
-          }
-          this.c = n;
-          return this.c;
-        }
-      },
-      set(value) {
-        this.c = value;
-      },
-    },
-  },
+  computed: {},
 };
 </script>

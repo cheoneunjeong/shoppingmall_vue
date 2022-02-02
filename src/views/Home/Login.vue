@@ -52,6 +52,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import Route from "@/router/index";
 export default {
   name: "Login",
 
@@ -65,7 +66,7 @@ export default {
     ...mapActions(["LoginUser"]),
   },
   computed: {
-    ...mapState([]),
+    ...mapState(["UserInfo"]),
   },
 };
 </script>

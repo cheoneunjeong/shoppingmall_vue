@@ -116,6 +116,32 @@ export default new Vuex.Store({
           })
       })
     },
+    Add_Role({ commit, state }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${state.UserInfo.token}`
+        axios.post('http://localhost:9010/api/public/roleAdmin', payload)
+          .then(Response => {
+            commit('SET_USER_REFRESH', Response.data)
+            alert("관리자 권한이  추가되었습니다.")
+          })
+          .catch(Error => {
+            console.log('Add_Role_error')
+          })
+      })
+    },
+    Delete_Role({ state, commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${state.UserInfo.token}`
+        axios.delete('http://localhost:9010/api/public/roleAdmin', { params: { username: payload } })
+          .then(Response => {
+            commit('SET_USER_REFRESH', Response.data)
+            alert("관리자 권한이  삭제되었습니다.")
+          })
+          .catch(Error => {
+            console.log('Delete_Role_error')
+          })
+      })
+    },
     Get_Categories({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
@@ -155,6 +181,19 @@ export default new Vuex.Store({
           })
       })
     },
+    Edit_Category({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/edit-Category', payload)
+          .then(Response => {
+            commit('SET_CATEGORIES', Response.data)
+            Route.push('/admin/category')
+          })
+          .catch(Error => {
+            console.log("Edit_Category_error")
+          })
+      })
+    }
   },
 
   modules: {

@@ -61,16 +61,16 @@
               <font-awesome-icon icon="shopping-cart" />
             </v-list-item-content>
           </v-list-item>
-          <v-list-item>
-            <v-list-item-action> </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>쇼핑몰 관리</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
           <v-list-item router :to="{ name: 'Category' }">
             <v-list-item-action> </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title>분류관리</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item router :to="{ name: 'Product' }">
+            <v-list-item-action> </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>상품관리</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>

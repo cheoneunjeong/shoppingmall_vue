@@ -23,11 +23,24 @@
               name: 'AddCategory',
               query: {
                 code: item.code,
+                groups: item.groups,
                 orders: item.orders,
                 depth: item.depth,
               },
             }"
             >추가</v-btn
+          >
+          <v-btn
+            depressed
+            small
+            router
+            :to="{
+              name: 'EditCategory',
+              query: {
+                item: item,
+              },
+            }"
+            >수정</v-btn
           >
         </template>
       </v-data-table>
@@ -49,8 +62,6 @@ export default {
       headers: [
         {
           text: "분류코드",
-
-          filterable: false,
           value: "code",
           width: "25%",
         },
@@ -58,7 +69,7 @@ export default {
         { text: "상품수", value: "stock", width: "20%" },
         { text: "판매가능", value: "sale", width: "10%" },
         {
-          text: "하위분류",
+          text: "",
           value: "action",
           sortable: false,
           align: "right",

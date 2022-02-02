@@ -11,12 +11,13 @@ import Shop from '@/views/Shop/Shop'
 import Admin from '@/views/Admin/Admin'
 import Category from '@/views/Admin/Category'
 import AddCategory from '@/views/Admin/AddCategory'
-
+import EditCategory from '@/views/Admin/EditCategory'
+import Product from '@/views/Admin/Product'
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
   if (store.state.UserInfo.login_success === true) {
-    next('/')
+    next('/mypage')
   } else {
     next()
   }
@@ -63,6 +64,8 @@ const routes = [
     children: [
       { path: "category", name: 'Category', component: Category },
       { path: "addCategory", name: 'AddCategory', component: AddCategory },
+      { path: "editCategory", name: 'EditCategory', component: EditCategory },
+      { path: "product", name: 'Product', component: Product },
     ]
   },
   {
