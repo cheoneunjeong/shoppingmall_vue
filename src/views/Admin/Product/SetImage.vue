@@ -12,13 +12,13 @@
               <p>이미지 첨부</p>
             </v-list-item-action>
             <v-list-item-content
-              ><v-col cols="12" md="3">
+              ><v-col cols="12" md="5">
                 <v-file-input
                   v-model="file"
                   accept="image/png, image/jpeg, image/bmp"
-                  placeholder="Pick an avatar"
                   prepend-icon="mdi-camera"
                   label="image"
+                  @change="onImageChange"
                 ></v-file-input>
               </v-col>
               <div>
@@ -27,8 +27,8 @@
                   @click="cancel(item)"
                   depressed
                   small
-                  v-for="item in this.files"
-                  :key="item.name"
+                  v-for="(item, index) in this.files"
+                  :key="index"
                   >{{ item.name }} X</v-btn
                 >
               </div>
@@ -40,5 +40,33 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      file: null,
+    };
+  },
+  computed: {
+    files: {
+      get() {
+        return this.$store.state.product.files;
+      },
+      set(value) {
+        this.$store.commit("update_files", value);
+      },
+    },
+  },
+  methods: {
+    onImageChange() {
+      if (!!this.file) {
+        this.files.push(this.file);
+        this.file = null;
+      }
+    },
+    cancel(item) {
+      const p = this.files.indexOf(item);
+      this.files.splice(p, 1);
+    },
+  },
+};
 </script>

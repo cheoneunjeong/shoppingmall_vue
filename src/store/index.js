@@ -9,6 +9,12 @@ export default new Vuex.Store({
   state: {
     UserInfo: { id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false },
     Categories: [],
+    product: {
+      category: [], code: '', name: '', desc: '', type: ["hit", "new", "disc", "recom", "best"],
+      sale: false, detail_desc: '', material: '상세페이지 참고', size: '상세페이지 참고', manufacturer: '상세페이지 참고', caution: '상세페이지 참고',
+      price: '', point: '', stock: '', shipping: '', files: [],
+      options: [{ option: null, op_detail: null }, { option: null, op_detail: null }]
+    }
   },
   mutations: {
     SET_USER(state, data) {
@@ -43,7 +49,61 @@ export default new Vuex.Store({
     },
     SET_CATEGORIES(state, data) {
       state.Categories = data
-    }
+    },
+    update_category(state, data) {
+      state.product.category[data.i] = data.value
+    },
+    update_code(state, data) {
+      state.product.code = data
+    },
+    update_name(state, data) {
+      state.product.name = data
+    },
+    update_desc(state, data) {
+      state.product.desc = data
+    },
+    update_type(state, data) {
+      state.product.type = data
+    },
+    update_isSale(state, data) {
+      state.product.sale = data
+    },
+    update_detail_desc(state, data) {
+      state.product.detail_desc = data
+    },
+    update_material(state, data) {
+      state.product.material = data
+    },
+    update_size(state, data) {
+      state.product.size = data
+    },
+    update_manufacturer(state, data) {
+      state.product.manufacturer = data
+    },
+    update_caution(state, data) {
+      state.product.caution = data
+    },
+    update_price(state, data) {
+      state.product.price = data
+    },
+    update_point(state, data) {
+      state.product.point = data
+    },
+    update_stock(state, data) {
+      state.product.stock = data
+    },
+    update_option1(state, data) {
+      state.product.options[data.i].option = data.value
+    },
+    update_option2(state, data) {
+      state.product.options[data.i].op_detail = data.value
+    },
+    update_shipping(state, data) {
+      state.product.shipping = data
+    },
+    update_files(state, data) {
+      state.product.files = data
+    },
   },
   actions: {
     NewUsers({ commit }, payload) {
@@ -188,6 +248,18 @@ export default new Vuex.Store({
           .then(Response => {
             commit('SET_CATEGORIES', Response.data)
             Route.push('/admin/category')
+          })
+          .catch(Error => {
+            console.log("Edit_Category_error")
+          })
+      })
+    },
+    CreateProduct({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        console.log(payload)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/CreateProduct', payload)
+          .then(Response => {
           })
           .catch(Error => {
             console.log("Edit_Category_error")

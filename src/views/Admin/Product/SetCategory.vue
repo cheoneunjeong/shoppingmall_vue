@@ -24,7 +24,7 @@
                   <v-select
                     label="Outlined style"
                     :items="category"
-                    v-model="selected_ctg"
+                    v-model="selected_1"
                     dense
                     outlined
                   ></v-select> </v-col
@@ -49,7 +49,7 @@
                   <v-select
                     label="Outlined style"
                     :items="category"
-                    v-model="selected_ctg"
+                    v-model="selected_2"
                     dense
                     outlined
                   ></v-select> </v-col
@@ -75,7 +75,7 @@
                   <v-select
                     label="Outlined style"
                     :items="category"
-                    v-model="selected_ctg"
+                    v-model="selected_3"
                     dense
                     outlined
                   ></v-select> </v-col
@@ -102,6 +102,33 @@ export default {
   },
   computed: {
     ...mapState(["Categories"]),
+    selected_1: {
+      get() {
+        return this.$store.state.product.category[0];
+      },
+      set(value) {
+        let data = { i: 0, value: value };
+        this.$store.commit("update_category", data);
+      },
+    },
+    selected_2: {
+      get() {
+        return this.$store.state.product.category[1];
+      },
+      set(value) {
+        let data = { i: 1, value: value };
+        this.$store.commit("update_category", data);
+      },
+    },
+    selected_3: {
+      get() {
+        return this.$store.state.product.category[2];
+      },
+      set(value) {
+        let data = { i: 2, value: value };
+        this.$store.commit("update_category", data);
+      },
+    },
   },
   created() {
     this.$store.dispatch("Get_Categories");

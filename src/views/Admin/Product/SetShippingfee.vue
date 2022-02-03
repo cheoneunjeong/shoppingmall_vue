@@ -18,7 +18,7 @@
                   <v-select
                     label="shipping fee"
                     :items="items"
-                    v-model="selected"
+                    v-model="shipping"
                     dense
                     outlined
                   ></v-select> </v-col
@@ -41,6 +41,16 @@ export default {
       items: ["쇼핑몰 기본설정 사용", "무료배송"],
       selected: "",
     };
+  },
+  computed: {
+    shipping: {
+      get() {
+        return this.$store.state.product.shipping;
+      },
+      set(value) {
+        this.$store.commit("update_shipping", value);
+      },
+    },
   },
 };
 </script>
