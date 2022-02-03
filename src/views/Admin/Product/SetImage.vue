@@ -1,0 +1,44 @@
+<template>
+  <div>
+    <v-card>
+      <v-list>
+        <v-list-item>
+          <v-list-item-content> 이미지 </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item>
+          <template>
+            <v-list-item-action style="width: 150px">
+              <p>이미지 첨부</p>
+            </v-list-item-action>
+            <v-list-item-content
+              ><v-col cols="12" md="3">
+                <v-file-input
+                  v-model="file"
+                  accept="image/png, image/jpeg, image/bmp"
+                  placeholder="Pick an avatar"
+                  prepend-icon="mdi-camera"
+                  label="image"
+                ></v-file-input>
+              </v-col>
+              <div>
+                upload :
+                <v-btn
+                  @click="cancel(item)"
+                  depressed
+                  small
+                  v-for="item in this.files"
+                  :key="item.name"
+                  >{{ item.name }} X</v-btn
+                >
+              </div>
+            </v-list-item-content>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </div>
+</template>
+<script>
+export default {};
+</script>

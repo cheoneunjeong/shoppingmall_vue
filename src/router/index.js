@@ -9,10 +9,11 @@ import SignUp from '../views/Home/SignUp'
 import HelloWorld from '../components/HelloWorld'
 import Shop from '@/views/Shop/Shop'
 import Admin from '@/views/Admin/Admin'
-import Category from '@/views/Admin/Category'
-import AddCategory from '@/views/Admin/AddCategory'
-import EditCategory from '@/views/Admin/EditCategory'
-import Product from '@/views/Admin/Product'
+import Category from '@/views/Admin/Category/Category'
+import AddCategory from '@/views/Admin/Category/AddCategory'
+import EditCategory from '@/views/Admin/Category/EditCategory'
+import Product from '@/views/Admin/Product/Product'
+import AddProduct from '@/views/Admin/Product/AddProduct'
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
@@ -66,6 +67,7 @@ const routes = [
       { path: "addCategory", name: 'AddCategory', component: AddCategory },
       { path: "editCategory", name: 'EditCategory', component: EditCategory },
       { path: "product", name: 'Product', component: Product },
+      { path: "addproduct", name: 'AddProduct', component: AddProduct },
     ]
   },
   {

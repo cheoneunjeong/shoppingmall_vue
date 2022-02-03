@@ -1,0 +1,113 @@
+<template>
+  <div>
+    <v-card>
+      <v-list>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>상품분류</v-list-item-title>
+            <v-list-item-subtitle>
+              <br />
+              기본분류는 반드시 선택하셔야 합니다. 하나의 상품에 최대 3개의 다른
+              분류를 지정할 수 있습니다.
+            </v-list-item-subtitle>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item>
+          <template>
+            <v-list-item-action style="width: 150px">
+              <p>기본분류</p>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title
+                ><v-col class="d-flex" cols="6" sm="3">
+                  <v-select
+                    label="Outlined style"
+                    :items="category"
+                    v-model="selected_ctg"
+                    dense
+                    outlined
+                  ></v-select> </v-col
+              ></v-list-item-title>
+              <v-list-item-subtitle
+                >기본분류를 선택하면, 판매/재고/HTML사용/판매자 E-mail 등을,
+                선택한 분류의 기본값으로 설정합니다.</v-list-item-subtitle
+              >
+            </v-list-item-content>
+          </template>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item>
+          <template>
+            <v-list-item-action style="width: 150px">
+              <p>2차분류</p>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title
+                ><v-col class="d-flex" cols="6" sm="3">
+                  <v-select
+                    label="Outlined style"
+                    :items="category"
+                    v-model="selected_ctg"
+                    dense
+                    outlined
+                  ></v-select> </v-col
+              ></v-list-item-title>
+              <v-list-item-subtitle
+                >2차 분류는 기본 분류의 하위 분류 개념이 아니므로 기본 분류
+                선택시 해당 상품이 포함될 최하위 분류만 선택하시면
+                됩니다.</v-list-item-subtitle
+              >
+            </v-list-item-content>
+          </template>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item>
+          <template>
+            <v-list-item-action style="width: 150px">
+              <p>3차분류</p>
+            </v-list-item-action>
+
+            <v-list-item-content>
+              <v-list-item-title
+                ><v-col class="d-flex" cols="6" sm="3">
+                  <v-select
+                    label="Outlined style"
+                    :items="category"
+                    v-model="selected_ctg"
+                    dense
+                    outlined
+                  ></v-select> </v-col
+              ></v-list-item-title>
+              <v-list-item-subtitle
+                >3차 분류는 기본 분류의 하위 분류 개념이 아니므로 기본 분류
+                선택시 해당 상품이 포함될 최하위 분류만 선택하시면
+                됩니다.</v-list-item-subtitle
+              >
+            </v-list-item-content>
+          </template>
+        </v-list-item>
+      </v-list>
+    </v-card>
+  </div>
+</template>
+<script>
+import { mapState } from "vuex";
+export default {
+  data() {
+    return {
+      category: [],
+    };
+  },
+  computed: {
+    ...mapState(["Categories"]),
+  },
+  created() {
+    this.$store.dispatch("Get_Categories");
+    for (let i = 0; i < this.Categories.length; i++) {
+      this.category.push(this.Categories[i].name);
+    }
+  },
+};
+</script>

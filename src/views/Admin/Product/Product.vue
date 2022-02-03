@@ -1,5 +1,11 @@
 <template>
   <div style="width: 90%" class="mx-auto">
+    <v-col align="right">
+      <v-btn color="#E0F2F1" depressed router :to="{ name: 'AddProduct' }"
+        >상품등록</v-btn
+      >
+    </v-col>
+    <br />
     <v-card>
       <v-card-title>
         <v-text-field
