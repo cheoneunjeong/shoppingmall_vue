@@ -16,7 +16,7 @@
           hide-details
         ></v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="items" :search="search">
+      <v-data-table :headers="headers" :items="ProductList" :search="search">
         <template v-slot:item.sale="{ item }">
           <v-checkbox v-model="item.sale"></v-checkbox>
         </template>
@@ -29,6 +29,7 @@
   </div>
 </template>
 <script>
+import { mapState } from "vuex";
 export default {
   data() {
     return {
@@ -36,39 +37,32 @@ export default {
       headers: [
         {
           text: "상품코드",
-          value: "p_code",
-          width: "10%",
+          value: "code",
+          width: "100px",
         },
-        { text: "분류", value: "category" },
-        { text: "이미지", value: "image" },
+        { text: "분류", value: "category_s" },
+        { text: "이미지", value: "filesname" },
         { text: "상품명", value: "name" },
         { text: "판매가격", value: "price", width: "10%" },
-        { text: "포인트", value: "point", width: "5%" },
+        { text: "포인트", value: "point", width: "15%" },
         { text: "재고", value: "stock", width: "5%" },
-        { text: "판매", value: "sale", width: "5%" },
-        { text: "조회", value: "hit", width: "5%" },
+        { text: "판매", value: "sale", width: "50px" },
         {
           text: "",
           value: "action",
           sortable: false,
           align: "right",
-          width: "10%",
-        },
-      ],
-      items: [
-        {
-          p_code: "1",
-          category: "test",
-          image: "image",
-          name: "name",
-          price: "100",
-          point: "1",
-          stock: "0",
-          isSale: false,
-          hit: "0",
+          width: "70px",
         },
       ],
     };
+  },
+  computed: {
+    ...mapState(["ProductList"]),
+  },
+  created() {
+    this.$store.dispatch("Get_ProductList");
+    this.$store.dispatch("Get_Categories");
   },
 };
 </script>

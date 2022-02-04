@@ -3,7 +3,7 @@
     <br />
     <p class="text-md-center">상품입력</p>
     <br />
-    <SetCategory />
+    <SetCategory :category="this.category" />
     <br />
     <SetInfo />
     <br />
@@ -30,6 +30,11 @@ import SetShippingfee from "@/views/Admin/Product/SetShippingfee";
 import SetImage from "@/views/Admin/Product/SetImage";
 
 export default {
+  data() {
+    return {
+      category: [],
+    };
+  },
   components: {
     SetCategory,
     SetInfo,
@@ -39,24 +44,27 @@ export default {
     SetImage,
   },
   computed: {
-    ...mapState(["product"]),
+    ...mapState(["product", "Categories"]),
   },
   methods: {
     ...mapActions(["CreateProduct_files", "CreateProduct"]),
     create() {
       this.CreateProduct(this.product);
-      // if (this.product.files.length !== 0) {
-      //   let formData = new FormData();
-      //   for (let i = 0; i < this.product.files.length; i++) {
-      //     formData.append("file", this.product.files[i]);
-      //   }
-      //   formData.append("product", this.product);
 
-      //   this.CreateProduct_files(formData);
-      // } else {
-      //   this.CreateProduct(this.product);
-      // }
+      if (this.product.files.length !== 0) {
+        let formData = new FormData();
+        for (let i = 0; i < this.product.files.length; i++) {
+          formData.append("file", this.product.files[i]);
+        }
+        formData.append("code", this.product.code);
+        this.CreateProduct_files(formData);
+      }
     },
+  },
+  created() {
+    for (let i = 0; i < this.Categories.length; i++) {
+      this.category.push(this.Categories[i].name);
+    }
   },
 };
 </script>

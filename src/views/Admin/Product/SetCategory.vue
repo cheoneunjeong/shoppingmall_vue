@@ -96,10 +96,9 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {
-      category: [],
-    };
+    return {};
   },
+  props: ["category"],
   computed: {
     ...mapState(["Categories"]),
     selected_1: {
@@ -129,12 +128,6 @@ export default {
         this.$store.commit("update_category", data);
       },
     },
-  },
-  created() {
-    this.$store.dispatch("Get_Categories");
-    for (let i = 0; i < this.Categories.length; i++) {
-      this.category.push(this.Categories[i].name);
-    }
   },
 };
 </script>

@@ -9,6 +9,7 @@ export default new Vuex.Store({
   state: {
     UserInfo: { id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false },
     Categories: [],
+    ProductList: [],
     product: {
       category: [], code: '', name: '', desc: '', type: ["hit", "new", "disc", "recom", "best"],
       sale: false, detail_desc: '', material: '상세페이지 참고', size: '상세페이지 참고', manufacturer: '상세페이지 참고', caution: '상세페이지 참고',
@@ -49,6 +50,9 @@ export default new Vuex.Store({
     },
     SET_CATEGORIES(state, data) {
       state.Categories = data
+    },
+    SET_PRODUCTLIST(state, data) {
+      state.ProductList = data
     },
     update_category(state, data) {
       state.product.category[data.i] = data.value
@@ -256,16 +260,47 @@ export default new Vuex.Store({
     },
     CreateProduct({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        console.log(payload)
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/CreateProduct', payload)
+        axios.post('http://localhost:9010/api/admin/product', payload)
+          .then(Response => {
+            Route.push('/admin/product')
+          })
+          .catch(Error => {
+            console.log("CreateProduct_error")
+          })
+      })
+    },
+    CreateProduct_files({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/product-files',
+          payload,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              'Access-Control-Allow-Origin': '*'
+            }
+          }
+        )
           .then(Response => {
           })
           .catch(Error => {
-            console.log("Edit_Category_error")
+            console.log("CreateProduct_files_error")
           })
       })
-    }
+    },
+    Get_ProductList({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/admin/product')
+          .then(Response => {
+            commit('SET_PRODUCTLIST', Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_ProductList_error")
+          })
+      })
+    },
   },
 
   modules: {
