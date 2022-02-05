@@ -10,7 +10,22 @@
           hide-details
         ></v-text-field>
       </v-card-title>
-      <v-data-table :headers="headers" :items="Categories" :search="search">
+      <v-data-table
+        :headers="headers"
+        :items="Categories"
+        :search="search"
+        v-model="selected"
+        item-key="code"
+        :single-select="singleSelect"
+        show-select
+      >
+        <template v-slot:top>
+          <v-switch
+            v-model="singleSelect"
+            label="Single select"
+            class="pa-3"
+          ></v-switch>
+        </template>
         <template v-slot:item.sale="{ item }">
           <v-checkbox v-model="item.sale"></v-checkbox>
         </template>
@@ -50,14 +65,18 @@
       <v-btn depressed router :to="{ name: 'AddCategory' }">
         <font-awesome-icon icon="plus-square"
       /></v-btn>
+      <v-btn depressed @click="deleteCategory">삭제</v-btn>
     </v-col>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
+      singleSelect: false,
+      selected: [],
+      selected_code: [],
       search: "",
       headers: [
         {
@@ -80,6 +99,15 @@ export default {
   },
   computed: {
     ...mapState(["Categories"]),
+  },
+  methods: {
+    ...mapActions(["Delete_SelectedCategory"]),
+    deleteCategory() {
+      for (let i = 0; i < this.selected.length; i++) {
+        this.selected_code.push(this.selected[i].code);
+      }
+      this.Delete_SelectedCategory(this.selected_code);
+    },
   },
   created() {
     this.$store.dispatch("Get_Categories");

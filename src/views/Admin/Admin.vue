@@ -94,7 +94,7 @@
       <v-app-bar app color="cyan" dark flat>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
-        <v-toolbar-title>Your Dashboard</v-toolbar-title>
+        <v-toolbar-title>ADMINISTRATOR</v-toolbar-title>
 
         <v-spacer></v-spacer>
 

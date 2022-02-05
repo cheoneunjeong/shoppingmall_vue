@@ -30,7 +30,10 @@
         </v-list-item-content>
       </v-list-item>
       <v-list-item
-        v-if="UserInfo.auth.indexOf('ROLE_ADMIN') !== -1"
+        v-if="
+          this.UserInfo.login_success === true &&
+          UserInfo.auth.indexOf('ROLE_ADMIN') !== -1
+        "
         router
         :to="{ name: 'Admin' }"
       >

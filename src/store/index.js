@@ -37,7 +37,7 @@ export default new Vuex.Store({
       state.UserInfo.login_error = false
       localStorage.removeItem('token')
       console.log("로그아웃?" + localStorage.getItem('token'))
-      Route.push('/')
+      Route.go()
     },
     SET_USER_REFRESH(state, data) {
       state.UserInfo.id = data.username
@@ -295,6 +295,30 @@ export default new Vuex.Store({
         axios.get('http://localhost:9010/api/admin/product')
           .then(Response => {
             commit('SET_PRODUCTLIST', Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_ProductList_error")
+          })
+      })
+    },
+    Delete_SelectedProduct({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/delete-product', payload)
+          .then(Response => {
+            Route.go()
+          })
+          .catch(Error => {
+            console.log("Get_ProductList_error")
+          })
+      })
+    },
+    Delete_SelectedCategory({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/delete-category', payload)
+          .then(Response => {
+            Route.go()
           })
           .catch(Error => {
             console.log("Get_ProductList_error")

@@ -14,6 +14,7 @@
   </div>
 </template>
 <script>
+import Route from "@/router/index";
 import { mapActions, mapState } from "vuex";
 export default {
   name: "MyPage",
