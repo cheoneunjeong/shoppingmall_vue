@@ -102,11 +102,18 @@ export default {
   },
   methods: {
     ...mapActions(["Delete_SelectedCategory"]),
+
     deleteCategory() {
-      for (let i = 0; i < this.selected.length; i++) {
-        this.selected_code.push(this.selected[i].code);
+      if (
+        confirm(
+          "해당 분류코드의 하위목록 모두 삭제되며,\n기본분류로 지정해놓은 상품 또한 삭제됩니다. 진행하시겠습니까?"
+        )
+      ) {
+        for (let i = 0; i < this.selected.length; i++) {
+          this.selected_code.push(this.selected[i].code);
+        }
+        this.Delete_SelectedCategory(this.selected_code);
       }
-      this.Delete_SelectedCategory(this.selected_code);
     },
   },
   created() {

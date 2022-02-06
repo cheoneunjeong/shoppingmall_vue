@@ -11,10 +11,10 @@ export default new Vuex.Store({
     Categories: [],
     ProductList: [],
     product: {
-      category: [], code: '', name: '', desc: '', type: ["hit", "new", "disc", "recom", "best"],
+      category: '', code: '', name: '', descr: '', type: ["hit", "new", "disc", "recom", "best"],
       sale: false, detail_desc: '', material: '상세페이지 참고', size: '상세페이지 참고', manufacturer: '상세페이지 참고', caution: '상세페이지 참고',
       price: '', point: '', stock: '', shipping: '', files: [],
-      options: [{ option: null, op_detail: null }, { option: null, op_detail: null }]
+      options: [{ option: null, op_detail: null }, { option: null, op_detail: null }], edit: false
     }
   },
   mutations: {
@@ -54,8 +54,11 @@ export default new Vuex.Store({
     SET_PRODUCTLIST(state, data) {
       state.ProductList = data
     },
+    // update_category(state, data) {
+    //   state.product.category[data.i] = data.value
+    // },
     update_category(state, data) {
-      state.product.category[data.i] = data.value
+      state.product.category = data
     },
     update_code(state, data) {
       state.product.code = data
@@ -63,8 +66,8 @@ export default new Vuex.Store({
     update_name(state, data) {
       state.product.name = data
     },
-    update_desc(state, data) {
-      state.product.desc = data
+    update_descr(state, data) {
+      state.product.descr = data
     },
     update_type(state, data) {
       state.product.type = data
@@ -108,6 +111,29 @@ export default new Vuex.Store({
     update_files(state, data) {
       state.product.files = data
     },
+    SET_PRODUCT_DETAILS(state, data) {
+      state.product.edit = true
+      state.product.category = data.category
+      state.product.code = data.code
+      state.product.name = data.name
+      state.product.descr = data.descr
+      state.product.type = data.type
+      state.product.sale = data.sale
+      state.product.detail_desc = data.detail_desc
+      state.product.material = data.material
+      state.product.size = data.size
+      state.product.manufacturer = data.manufacturer
+      state.product.caution = data.caution
+      state.product.price = data.price
+      state.product.point = data.point
+      state.product.stock = data.stock
+      state.product.shipping = data.shipping
+      state.product.options = data.options
+    },
+    SET_EDIT(state) {
+      state.product.edit = false
+      Route.push('/admin/addproduct')
+    }
   },
   actions: {
     NewUsers({ commit }, payload) {
@@ -260,6 +286,8 @@ export default new Vuex.Store({
     },
     CreateProduct({ commit }, payload) {
       return new Promise((resolve, reject) => {
+        console.log("2")
+        console.log(payload)
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.post('http://localhost:9010/api/admin/product', payload)
           .then(Response => {
@@ -283,6 +311,7 @@ export default new Vuex.Store({
           }
         )
           .then(Response => {
+            Route.go()
           })
           .catch(Error => {
             console.log("CreateProduct_files_error")
@@ -322,6 +351,31 @@ export default new Vuex.Store({
           })
           .catch(Error => {
             console.log("Get_ProductList_error")
+          })
+      })
+    },
+    Get_ProductDetails({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/admin/product-details', { params: { code: payload } })
+          .then(Response => {
+            commit("SET_PRODUCT_DETAILS", Response.data)
+            Route.push('/admin/addproduct')
+          })
+          .catch(Error => {
+            console.log("Get_ProductDetails_error")
+          })
+      })
+    },
+    EditProduct({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.put('http://localhost:9010/api/admin/product', payload)
+          .then(Response => {
+            Route.push('/admin/product')
+          })
+          .catch(Error => {
+            console.log("EditProduct_error")
           })
       })
     },

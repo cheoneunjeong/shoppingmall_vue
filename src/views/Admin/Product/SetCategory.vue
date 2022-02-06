@@ -30,13 +30,15 @@
                   ></v-select> </v-col
               ></v-list-item-title>
               <v-list-item-subtitle
-                >기본분류를 선택하면, 판매/재고/HTML사용/판매자 E-mail 등을,
-                선택한 분류의 기본값으로 설정합니다.</v-list-item-subtitle
+                >판매/재고/HTML사용/판매자 E-mail 등을, 선택한 분류의 기본값으로
+                설정됩니다. <br />
+                또한 기본분류에 적용된 코드 삭제시, 해당 상품은 자동
+                삭제됩니다.</v-list-item-subtitle
               >
             </v-list-item-content>
           </template>
         </v-list-item>
-        <v-divider></v-divider>
+        <!-- <v-divider></v-divider>
         <v-list-item>
           <template>
             <v-list-item-action style="width: 150px">
@@ -87,7 +89,7 @@
               >
             </v-list-item-content>
           </template>
-        </v-list-item>
+        </v-list-item> -->
       </v-list>
     </v-card>
   </div>
@@ -103,31 +105,31 @@ export default {
     ...mapState(["Categories"]),
     selected_1: {
       get() {
-        return this.$store.state.product.category[0];
+        return this.$store.state.product.category;
       },
       set(value) {
-        let data = { i: 0, value: value };
-        this.$store.commit("update_category", data);
+        this.$store.commit("update_category", value);
       },
     },
-    selected_2: {
-      get() {
-        return this.$store.state.product.category[1];
-      },
-      set(value) {
-        let data = { i: 1, value: value };
-        this.$store.commit("update_category", data);
-      },
-    },
-    selected_3: {
-      get() {
-        return this.$store.state.product.category[2];
-      },
-      set(value) {
-        let data = { i: 2, value: value };
-        this.$store.commit("update_category", data);
-      },
-    },
+    // 2차, 3차 분류는 생략
+    // selected_2: {
+    //   get() {
+    //     return this.$store.state.product.category[1];
+    //   },
+    //   set(value) {
+    //     let data = { i: 1, value: value };
+    //     this.$store.commit("update_category", data);
+    //   },
+    // },
+    // selected_3: {
+    //   get() {
+    //     return this.$store.state.product.category[2];
+    //   },
+    //   set(value) {
+    //     let data = { i: 2, value: value };
+    //     this.$store.commit("update_category", data);
+    //   },
+    // },
   },
 };
 </script>

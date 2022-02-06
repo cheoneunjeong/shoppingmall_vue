@@ -51,7 +51,7 @@
               <v-list-item-title>
                 <v-col cols="12" md="4">
                   <v-text-field
-                    v-model="desc"
+                    v-model="descr"
                     label="description"
                   ></v-text-field>
                 </v-col>
@@ -192,12 +192,12 @@ export default {
         this.$store.commit("update_name", value);
       },
     },
-    desc: {
+    descr: {
       get() {
-        return this.$store.state.product.desc;
+        return this.$store.state.product.descr;
       },
       set(value) {
-        this.$store.commit("update_desc", value);
+        this.$store.commit("update_descr", value);
       },
     },
     type: {
