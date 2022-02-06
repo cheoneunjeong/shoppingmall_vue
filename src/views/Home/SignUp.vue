@@ -34,6 +34,23 @@
                 v-model="UserName"
                 type="text"
               ></v-text-field>
+
+              <v-text-field
+                id="Phone"
+                label="Phone"
+                name="Phone"
+                prepend-icon="mdi-phone"
+                v-model="Phone"
+                type="text"
+              ></v-text-field>
+              <v-text-field
+                id="Address"
+                label="Address"
+                name="Address"
+                prepend-icon="mdi-home"
+                v-model="Address"
+                type="text"
+              ></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions>
@@ -55,6 +72,8 @@ export default {
       UserId: null,
       UserPassword: null,
       UserName: null,
+      Phone: null,
+      Address: null,
     };
   },
   methods: {
@@ -64,6 +83,8 @@ export default {
         username: this.UserId,
         password: this.UserPassword,
         name: this.UserName,
+        phone: this.Phone,
+        address: this.Address,
       };
       this.NewUsers(Users);
     },

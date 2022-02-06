@@ -10,6 +10,7 @@ export default new Vuex.Store({
     UserInfo: { id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false },
     Categories: [],
     ProductList: [],
+    UserList: [],
     product: {
       category: '', code: '', name: '', descr: '', type: ["hit", "new", "disc", "recom", "best"],
       sale: false, detail_desc: '', material: '상세페이지 참고', size: '상세페이지 참고', manufacturer: '상세페이지 참고', caution: '상세페이지 참고',
@@ -133,6 +134,9 @@ export default new Vuex.Store({
     SET_EDIT(state) {
       state.product.edit = false
       Route.push('/admin/addproduct')
+    },
+    SET_USERLIST(state, data) {
+      state.UserList = data
     }
   },
   actions: {
@@ -192,7 +196,6 @@ export default new Vuex.Store({
     },
     UnpackToken({ commit }) {
       return new Promise((resolve, reject) => {
-        console.log("시작")
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.get('http://localhost:9010/api/public/unpackToken')
           .then(Response => {
@@ -286,8 +289,6 @@ export default new Vuex.Store({
     },
     CreateProduct({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        console.log("2")
-        console.log(payload)
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.post('http://localhost:9010/api/admin/product', payload)
           .then(Response => {
@@ -376,6 +377,18 @@ export default new Vuex.Store({
           })
           .catch(Error => {
             console.log("EditProduct_error")
+          })
+      })
+    },
+    Get_UserList({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/admin/userlist')
+          .then(Response => {
+            commit("SET_USERLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_UserList_error")
           })
       })
     },

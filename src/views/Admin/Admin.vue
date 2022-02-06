@@ -23,26 +23,24 @@
               <font-awesome-icon icon="cog" />
             </v-list-item-content>
           </v-list-item>
-          <v-list-item>
-            <v-list-item-action> </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>환경설정</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-action>
-              <font-awesome-icon icon="home" />
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>Login</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
         </v-list-group>
         <v-list-group>
           <v-list-item slot="activator">
             <v-list-item-action> </v-list-item-action>
             <v-list-item-content>
               <font-awesome-icon icon="user" />
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item router :to="{ name: 'User' }">
+            <v-list-item-action> </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>회원관리</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item router :to="{ name: 'Point' }">
+            <v-list-item-action> </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>포인트관리</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
@@ -91,7 +89,7 @@
           </v-list-item>
         </v-list-group>
       </v-navigation-drawer>
-      <v-app-bar app color="cyan" dark flat>
+      <v-app-bar app color="primary" dark flat>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
         <v-toolbar-title>ADMINISTRATOR</v-toolbar-title>

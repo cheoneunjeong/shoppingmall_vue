@@ -14,6 +14,8 @@ import AddCategory from '@/views/Admin/Category/AddCategory'
 import EditCategory from '@/views/Admin/Category/EditCategory'
 import Product from '@/views/Admin/Product/Product'
 import AddProduct from '@/views/Admin/Product/AddProduct'
+import User from '@/views/Admin/User/User'
+import Point from '@/views/Admin/User/Point'
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
@@ -68,6 +70,8 @@ const routes = [
       { path: "editCategory", name: 'EditCategory', component: EditCategory },
       { path: "product", name: 'Product', component: Product },
       { path: "addproduct", name: 'AddProduct', component: AddProduct },
+      { path: "user", name: 'User', component: User },
+      { path: "point", name: 'Point', component: Point },
     ]
   },
   {
