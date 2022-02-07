@@ -16,6 +16,8 @@ import Product from '@/views/Admin/Product/Product'
 import AddProduct from '@/views/Admin/Product/AddProduct'
 import User from '@/views/Admin/User/User'
 import Point from '@/views/Admin/User/Point'
+import UserInfo from '@/views/Home/UserInfo'
+import Main from '@/views/Shop/Main'
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
@@ -44,6 +46,7 @@ const routes = [
       { path: "mypage", name: 'Mypage', component: Mypage, beforeEnter: onlyAuthUser },
       { path: "signup", name: 'SignUp', component: SignUp },
       { path: "", name: 'HelloWorld', component: HelloWorld },
+      { path: "userinfo", name: 'UserInfo', component: UserInfo, beforeEnter: onlyAuthUser },
 
     ]
   },
@@ -59,6 +62,9 @@ const routes = [
     path: '/shop',
     name: 'Shop',
     component: Shop,
+    children: [
+      { path: "/shop", name: 'Main', component: Main },
+    ]
   },
   {
     path: '/admin',
@@ -79,6 +85,7 @@ const routes = [
     name: 'OAuth',
     component: OAuth,
   },
+
 
 ]
 

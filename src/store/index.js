@@ -7,7 +7,10 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    UserInfo: { id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false },
+    UserInfo: {
+      id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false,
+      point: null, address: null, phone: null, AUTH: null, datetime: null, reject: null,
+    },
     Categories: [],
     ProductList: [],
     UserList: [],
@@ -21,13 +24,19 @@ export default new Vuex.Store({
   },
   mutations: {
     SET_USER(state, data) {
-      state.UserInfo.id = data.username
-      state.UserInfo.name = data.name
+      state.UserInfo.id = data.user.username
+      state.UserInfo.name = data.user.name
       state.UserInfo.auth = data.roles
       state.UserInfo.token = data.token
-      state.UserInfo.oauth = data.oauth
+      state.UserInfo.oauth = data.user.oauth
       state.UserInfo.login_success = true
       state.UserInfo.login_error = false
+      state.UserInfo.address = data.user.address
+      state.UserInfo.phone = data.user.phone
+      state.UserInfo.point = data.user.point
+      state.UserInfo.AUTH = data.user.auth
+      state.UserInfo.datetime = data.user.datetime
+      state.UserInfo.reject = data.user.reject
     },
     LOGOUT(state) {
       state.UserInfo.id = null
@@ -42,13 +51,19 @@ export default new Vuex.Store({
       Route.go()
     },
     SET_USER_REFRESH(state, data) {
-      state.UserInfo.id = data.username
-      state.UserInfo.name = data.name
+      state.UserInfo.id = data.user.username
+      state.UserInfo.name = data.user.name
       state.UserInfo.auth = data.roles
       state.UserInfo.token = data.token
-      state.UserInfo.oauth = data.oauth
+      state.UserInfo.oauth = data.user.oauth
       state.UserInfo.login_success = true
       state.UserInfo.login_error = false
+      state.UserInfo.address = data.user.address
+      state.UserInfo.phone = data.user.phone
+      state.UserInfo.point = data.user.point
+      state.UserInfo.AUTH = data.user.auth
+      state.UserInfo.datetime = data.user.datetime
+      state.UserInfo.reject = data.user.reject
     },
     SET_CATEGORIES(state, data) {
       state.Categories = data
@@ -148,7 +163,6 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         axios.post('http://localhost:9010/api/public/newUser', payload)
           .then(Response => {
-            console.log(Response.data)
             if (Response.data === "success") {
               Route.push("/login")
             }
@@ -204,7 +218,6 @@ export default new Vuex.Store({
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.get('http://localhost:9010/api/public/unpackToken')
           .then(Response => {
-            console.log(Response.data)
             commit('SET_USER_REFRESH', Response.data)
           })
           .catch(Error => {
@@ -442,6 +455,32 @@ export default new Vuex.Store({
           })
           .catch(Error => {
             console.log("Unblock_user_error")
+          })
+      })
+    },
+    Update_UserInfo({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.put('http://localhost:9010/api/public/user', payload)
+          .then(Response => {
+            alert("수정이 완료되었습니다.")
+            Route.go()
+          })
+          .catch(Error => {
+            console.log("Update_UserInfo_error")
+          })
+      })
+    },
+    Delete_User({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.delete('http://localhost:9010/api/public/user', { params: { username: payload } })
+          .then(Response => {
+            commit("LOGOUT")
+            Route.push("/")
+          })
+          .catch(Error => {
+            console.log("Unlink_User_err")
           })
       })
     },

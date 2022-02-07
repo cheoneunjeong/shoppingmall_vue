@@ -37,18 +37,10 @@
 
               <v-text-field
                 id="Phone"
-                label="Phone"
+                label="Phone [ '-' 제외,  숫자만 입력해주세요. ]"
                 name="Phone"
                 prepend-icon="mdi-phone"
                 v-model="Phone"
-                type="text"
-              ></v-text-field>
-              <v-text-field
-                id="Address"
-                label="Address"
-                name="Address"
-                prepend-icon="mdi-home"
-                v-model="Address"
                 type="text"
               ></v-text-field>
             </v-form>
@@ -73,7 +65,6 @@ export default {
       UserPassword: null,
       UserName: null,
       Phone: null,
-      Address: null,
     };
   },
   methods: {
@@ -84,7 +75,6 @@ export default {
         password: this.UserPassword,
         name: this.UserName,
         phone: this.Phone,
-        address: this.Address,
       };
       this.NewUsers(Users);
     },

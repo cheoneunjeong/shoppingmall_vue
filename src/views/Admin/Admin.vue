@@ -89,7 +89,7 @@
           </v-list-item>
         </v-list-group>
       </v-navigation-drawer>
-      <v-app-bar app color="primary" dark flat>
+      <v-app-bar app color="primary" dark>
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
         <v-toolbar-title>ADMINISTRATOR</v-toolbar-title>
