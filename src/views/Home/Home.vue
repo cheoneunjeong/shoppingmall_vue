@@ -7,7 +7,7 @@
         :to="{ name: 'Login' }"
       >
         <v-list-item-action>
-          <font-awesome-icon icon="home" />
+          <font-awesome-icon icon="sign-in-alt" />
         </v-list-item-action>
         <v-list-item-content>
           <v-list-item-title>Login</v-list-item-title>
@@ -26,7 +26,7 @@
           <font-awesome-icon icon="store" />
         </v-list-item-action>
         <v-list-item-content>
-          <v-list-item-title>Shopping Mall</v-list-item-title>
+          <v-list-item-title>Shop</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
       <v-list-item

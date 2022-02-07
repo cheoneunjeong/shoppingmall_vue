@@ -11,6 +11,7 @@ export default new Vuex.Store({
     Categories: [],
     ProductList: [],
     UserList: [],
+    PointList: [],
     product: {
       category: '', code: '', name: '', descr: '', type: ["hit", "new", "disc", "recom", "best"],
       sale: false, detail_desc: '', material: '상세페이지 참고', size: '상세페이지 참고', manufacturer: '상세페이지 참고', caution: '상세페이지 참고',
@@ -137,6 +138,9 @@ export default new Vuex.Store({
     },
     SET_USERLIST(state, data) {
       state.UserList = data
+    },
+    SET_POINTLIST(state, data) {
+      state.PointList = data
     }
   },
   actions: {
@@ -177,6 +181,7 @@ export default new Vuex.Store({
             Route.push('/')
           })
           .catch(Error => {
+            Route.push('/login')
             console.log('kakaoLogin_error')
           })
       })
@@ -389,6 +394,54 @@ export default new Vuex.Store({
           })
           .catch(Error => {
             console.log("Get_UserList_error")
+          })
+      })
+    },
+    Give_Point({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/point', payload)
+          .then(Response => {
+            Route.go()
+          })
+          .catch(Error => {
+            console.log("Give_Point_error")
+          })
+      })
+    },
+    Get_PointList({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/admin/point')
+          .then(Response => {
+            commit("SET_POINTLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_PointList_error")
+          })
+      })
+    },
+    Block_user({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.put('http://localhost:9010/api/admin/block-user', payload)
+          .then(Response => {
+            Route.go()
+          })
+          .catch(Error => {
+            console.log("Block_user_error")
+          })
+      })
+    },
+    Unblock_user({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.put('http://localhost:9010/api/admin/unblock-user', payload)
+          .then(Response => {
+            Route.go()
+          })
+          .catch(Error => {
+            console.log("Unblock_user_error")
           })
       })
     },
