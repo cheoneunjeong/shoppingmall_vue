@@ -110,15 +110,20 @@
         <router-view />
       </v-container>
     </v-main>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Footer from "@/views/Footer";
 export default {
   data() {
     return {
       drawer: null,
     };
+  },
+  components: {
+    Footer,
   },
 };
 </script>

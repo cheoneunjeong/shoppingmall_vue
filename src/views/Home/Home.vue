@@ -71,14 +71,14 @@
           <router-view />
         </v-container>
       </v-main>
-      <v-footer color="primary" app>
-        <span class="white--text">&copy; {{ new Date().getFullYear() }}</span>
-      </v-footer>
+
+      <Footer />
     </v-app>
   </div>
 </template>
 
 <script>
+import Footer from "@/views/Footer";
 import Route from "@/router/index";
 import { mapState } from "vuex";
 export default {
@@ -86,9 +86,10 @@ export default {
   data() {
     return {
       drawer: null,
+      icons: ["mdi-facebook", "mdi-twitter", "mdi-linkedin", "mdi-instagram"],
     };
   },
-  components: {},
+  components: { Footer },
   computed: {
     ...mapState(["UserInfo"]),
   },

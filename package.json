@@ -19,6 +19,7 @@
     "vue-displacement-slideshow": "^4.0.0",
     "vue-flux": "^6.4.0",
     "vue-infinite-slide-bar": "^1.1.1",
+    "vue-owl-carousel": "^2.0.3",
     "vue-router": "^3.2.0",
     "vueperslides": "^2.15.2",
     "vuetify": "^2.4.0",

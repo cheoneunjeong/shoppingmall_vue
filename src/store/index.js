@@ -15,6 +15,7 @@ export default new Vuex.Store({
     ProductList: [],
     UserList: [],
     PointList: [],
+    Menu: [],
     product: {
       category: '', code: '', name: '', descr: '', type: ["hit", "new", "disc", "recom", "best"],
       sale: false, detail_desc: '', material: '상세페이지 참고', size: '상세페이지 참고', manufacturer: '상세페이지 참고', caution: '상세페이지 참고',
@@ -156,6 +157,9 @@ export default new Vuex.Store({
     },
     SET_POINTLIST(state, data) {
       state.PointList = data
+    },
+    SET_MENU(state, data) {
+      state.Menu = data
     }
   },
   actions: {
@@ -481,6 +485,19 @@ export default new Vuex.Store({
           })
           .catch(Error => {
             console.log("Unlink_User_err")
+          })
+      })
+    },
+
+    //쇼핑몰페이지
+    Get_Menu({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.get('http://localhost:9010/api/public/menu')
+          .then(Response => {
+            commit("SET_MENU", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_Menu_err")
           })
       })
     },
