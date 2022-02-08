@@ -12,7 +12,7 @@
           <v-list-item
             v-if="this.UserInfo.login_success === false"
             router
-            :to="{ name: 'Login' }"
+            :to="{ name: 'shopLogin' }"
           >
             <v-list-item-action>
               <font-awesome-icon icon="sign-in-alt" />
@@ -32,16 +32,16 @@
               <v-list-item-icon> </v-list-item-icon>
               <v-list-item-title>
                 <v-btn
-                  color="#536D"
+                  color="hsl(231, 30%, 54%)"
                   dark
                   small
                   router
-                  :to="{ name: 'UserInfo' }"
+                  :to="{ name: 'shopUserInfo' }"
                   >정보수정</v-btn
                 ><v-btn small @click="logOut">로그아웃</v-btn>
               </v-list-item-title>
             </v-list-item>
-            <v-list-item router :to="{ name: 'Mypage' }">
+            <v-list-item router :to="{ name: 'shopMypage' }">
               <v-list-item-icon>
                 <v-icon>mdi-account</v-icon>
               </v-list-item-icon>
@@ -51,14 +51,17 @@
         </v-list>
       </v-navigation-drawer>
 
-      <v-app-bar app color="#6A76AB" dark shrink-on-scroll>
-        <template v-slot:img>
-          <v-card-title class="text-center justify-center py-6">
-            <h1 class="font-weight-bold text-h2 basil--text">BASiL</h1>
-          </v-card-title>
-        </template>
+      <v-app-bar app color="#EDE7F6" dark>
+        <v-app-bar-nav-icon
+          style="color: hsl(235, 8%, 72%)"
+          @click="drawer = !drawer"
+        ></v-app-bar-nav-icon>
 
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+        <v-col cols="12" align="center">
+          <v-btn depressed color="#EDE7F6" @click="main()">
+            <h1 class="font-weight-bold basil--text">BASiL</h1>
+          </v-btn>
+        </v-col>
 
         <v-spacer></v-spacer>
 
@@ -66,10 +69,14 @@
           <v-tabs
             v-model="tab"
             background-color="transparent"
-            color="basil"
+            color="hsl(231, 30%, 54%)"
             grow
           >
-            <v-tab v-for="(item, index) in Menu" :key="index">
+            <v-tab
+              v-for="(item, index) in Menu"
+              :key="index"
+              @click="productlist(item)"
+            >
               {{ item.name }}
             </v-tab>
           </v-tabs>
@@ -82,11 +89,17 @@
     </v-app>
   </div>
 </template>
-
+<style>
+/* Helper classes */
+.basil--text {
+  color: hsl(235, 8%, 72%) !important;
+}
+</style>
 <script>
 import Footer from "@/views/Footer";
 import Login from "@/views/Home/Login";
 import Route from "@/router/index";
+import ProductList from "@/views/Shop/ProductList";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -100,6 +113,7 @@ export default {
   components: {
     Footer,
     Login,
+    ProductList,
   },
   computed: {
     ...mapState(["UserInfo", "Menu"]),
@@ -110,6 +124,12 @@ export default {
     },
     home() {
       Route.push("/");
+    },
+    main() {
+      Route.push("/shop");
+    },
+    productlist(item) {
+      Route.push({ name: "ProductList", query: item });
     },
   },
   created() {

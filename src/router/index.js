@@ -18,11 +18,17 @@ import User from '@/views/Admin/User/User'
 import Point from '@/views/Admin/User/Point'
 import UserInfo from '@/views/Home/UserInfo'
 import Main from '@/views/Shop/Main'
+import ProductList from '@/views/Shop/ProductList'
+import Route from '../router/index'
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
   if (store.state.UserInfo.login_success === true) {
-    next('/mypage')
+    if (Route.currentRoute.matched[0].name === "Shop") {
+      Route.push("/shop/")
+    } else {
+      Route.push("/")
+    }
   } else {
     next()
   }
@@ -32,7 +38,11 @@ const onlyAuthUser = (to, from, next) => {
   if (store.state.UserInfo.login_success === true) {
     next()
   } else {
-    next('/login')
+    if (Route.currentRoute.matched[0].name === "Shop") {
+      Route.push("/shop/")
+    } else {
+      Route.push("/")
+    }
   }
 }
 
@@ -64,6 +74,11 @@ const routes = [
     component: Shop,
     children: [
       { path: "/shop", name: 'Main', component: Main },
+      { path: "login", name: 'shopLogin', component: Login, beforeEnter: rejectAuthUser },
+      { path: "mypage", name: 'shopMypage', component: Mypage, beforeEnter: onlyAuthUser },
+      { path: "signup", name: 'shopSignUp', component: SignUp },
+      { path: "userinfo", name: 'shopUserInfo', component: UserInfo, beforeEnter: onlyAuthUser },
+      { path: "productlist", name: 'ProductList', component: ProductList },
     ]
   },
   {

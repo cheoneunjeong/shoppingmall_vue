@@ -34,7 +34,14 @@
               @click="LoginUser({ username: username, password: password })"
               >Login</v-btn
             >
-            <v-btn color="#ECEFF1" router :to="{ name: 'SignUp' }"
+            <v-btn
+              color="#ECEFF1"
+              v-if="$route.name !== 'shopLogin'"
+              router
+              :to="{ name: 'SignUp' }"
+              >Sign Up</v-btn
+            >
+            <v-btn color="#ECEFF1" v-else router :to="{ name: 'shopSignUp' }"
               >Sign Up</v-btn
             >
           </v-card-actions>

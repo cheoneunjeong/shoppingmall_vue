@@ -12,13 +12,24 @@
             <v-list-item>
               <v-list-item-title>
                 <v-btn
-                  color="primary"
+                  v-if="$route.name !== 'shopMypage'"
+                  color="hsl(231, 30%, 54%)"
                   dark
                   small
                   router
                   :to="{ name: 'UserInfo' }"
                   >정보수정</v-btn
-                ><v-btn small @click="logOut">로그아웃</v-btn>
+                >
+                <v-btn
+                  v-else
+                  color="hsl(231, 30%, 54%)"
+                  dark
+                  small
+                  router
+                  :to="{ name: 'shopUserInfo' }"
+                  >정보수정</v-btn
+                >
+                <v-btn small @click="logOut">로그아웃</v-btn>
               </v-list-item-title>
             </v-list-item>
             <v-list-item>

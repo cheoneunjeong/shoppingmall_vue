@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import Route from '../router/index'
+import Shop from '@/views/Shop/Shop'
 
 Vue.use(Vuex)
 
@@ -49,7 +50,11 @@ export default new Vuex.Store({
       state.UserInfo.login_error = false
       localStorage.removeItem('token')
       console.log("로그아웃?" + localStorage.getItem('token'))
-      Route.go()
+      if (Route.currentRoute.matched[0].name === "Shop") {
+        Route.push("/shop")
+      } else {
+        Route.push("/")
+      }
     },
     SET_USER_REFRESH(state, data) {
       state.UserInfo.id = data.user.username
@@ -168,7 +173,11 @@ export default new Vuex.Store({
         axios.post('http://localhost:9010/api/public/newUser', payload)
           .then(Response => {
             if (Response.data === "success") {
-              Route.push("/login")
+              if (Route.currentRoute.name === "shopSignUp") {
+                Route.push("/shop/login")
+              } else {
+                Route.push("/login")
+              }
             }
           })
           .catch(Error => {
@@ -183,7 +192,11 @@ export default new Vuex.Store({
           .then(Response => {
             localStorage.setItem('token', Response.data.token)
             commit("SET_USER", Response.data)
-            Route.push('/')
+            if (Route.currentRoute.name === "shopLogin") {
+              Route.push("/shop/")
+            } else {
+              Route.push("/")
+            }
           })
           .catch(Error => {
             console.log('login_error')
@@ -468,7 +481,11 @@ export default new Vuex.Store({
         axios.put('http://localhost:9010/api/public/user', payload)
           .then(Response => {
             alert("수정이 완료되었습니다.")
-            Route.go()
+            if (Route.currentRoute.name === "shopUserInfo") {
+              Route.push("/shop/")
+            } else {
+              Route.push("/")
+            }
           })
           .catch(Error => {
             console.log("Update_UserInfo_error")
@@ -481,7 +498,11 @@ export default new Vuex.Store({
         axios.delete('http://localhost:9010/api/public/user', { params: { username: payload } })
           .then(Response => {
             commit("LOGOUT")
-            Route.push("/")
+            if (Route.currentRoute.name === "shopMyPage") {
+              Route.push("/shop/")
+            } else {
+              Route.push("/")
+            }
           })
           .catch(Error => {
             console.log("Unlink_User_err")
@@ -498,6 +519,18 @@ export default new Vuex.Store({
           })
           .catch(Error => {
             console.log("Get_Menu_err")
+          })
+      })
+    },
+    Get_ProductList({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        console.log(payload)
+        axios.get('http://localhost:9010/api/public/productlist', { params: { code: payload } })
+          .then(Response => {
+            commit("", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_ProductList_err")
           })
       })
     },

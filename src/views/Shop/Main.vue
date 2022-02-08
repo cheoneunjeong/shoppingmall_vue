@@ -1,12 +1,12 @@
 <template>
   <div>
     <carousel :autoplay="true" :nav="true" :dots="true" class="marginTop50">
-      <v-img :src="require('@/assets/dd.jpg')" height="400px" />
-      <img src="@/assets/풍경.jpg" height="400px" />
-      <img src="@/assets/풍경사진.jpg" height="400px" />
-      <v-img :src="require('@/assets/dd.jpg')" height="400px" />
-      <img src="@/assets/풍경.jpg" height="400px" />
-      <img src="@/assets/풍경사진.jpg" height="400px" />
+      <v-img :src="require('@/assets/sweater1.jpg')" height="400px" />
+      <img src="@/assets/키링.jpg" height="400px" />
+      <img src="@/assets/sweater1.jpg" height="400px" />
+      <v-img :src="require('@/assets/키링.jpg')" height="400px" />
+      <img src="@/assets/sweater1.jpg" height="400px" />
+      <img src="@/assets/키링.jpg" height="400px" />
     </carousel>
   </div>
 </template>
