@@ -19,7 +19,9 @@ import Point from '@/views/Admin/User/Point'
 import UserInfo from '@/views/Home/UserInfo'
 import Main from '@/views/Shop/Main'
 import ProductList from '@/views/Shop/ProductList'
+import ProductDetail from '@/views/Shop/ProductDetail'
 import Route from '../router/index'
+
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
@@ -79,6 +81,7 @@ const routes = [
       { path: "signup", name: 'shopSignUp', component: SignUp },
       { path: "userinfo", name: 'shopUserInfo', component: UserInfo, beforeEnter: onlyAuthUser },
       { path: "productlist", name: 'ProductList', component: ProductList },
+      { path: "productdetail", name: 'ProductDetail', component: ProductDetail },
     ]
   },
   {

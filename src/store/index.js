@@ -16,13 +16,14 @@ export default new Vuex.Store({
     ProductList: [],
     UserList: [],
     PointList: [],
-    Menu: [],
     product: {
       category: '', code: '', name: '', descr: '', type: ["hit", "new", "disc", "recom", "best"],
       sale: false, detail_desc: '', material: '상세페이지 참고', size: '상세페이지 참고', manufacturer: '상세페이지 참고', caution: '상세페이지 참고',
-      price: '', point: '', stock: '', shipping: '', files: [],
+      price: '', point: '', stock: '', shipping: '', mainfiles: [], detailfiles: [],
       options: [{ option: null, op_detail: null }, { option: null, op_detail: null }], edit: false
-    }
+    },
+    Menu: [],
+    productList_shop: []
   },
   mutations: {
     SET_USER(state, data) {
@@ -131,8 +132,11 @@ export default new Vuex.Store({
     update_shipping(state, data) {
       state.product.shipping = data
     },
-    update_files(state, data) {
-      state.product.files = data
+    update_mainfiles(state, data) {
+      state.product.mainfiles = data
+    },
+    update_detailfiles(state, data) {
+      state.product.detailfiles = data
     },
     SET_PRODUCT_DETAILS(state, data) {
       state.product.edit = true
@@ -165,6 +169,9 @@ export default new Vuex.Store({
     },
     SET_MENU(state, data) {
       state.Menu = data
+    },
+    SET_SHOP_PRODUCTLIST(state, data) {
+      state.productList_shop = data
     }
   },
   actions: {
@@ -522,15 +529,28 @@ export default new Vuex.Store({
           })
       })
     },
-    Get_ProductList({ commit }, payload) {
+    Get_ProductList_shop({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        console.log(payload)
-        axios.get('http://localhost:9010/api/public/productlist', { params: { code: payload } })
+        axios.get('http://localhost:9010/api/public/productlist-shop', { params: { code: payload } })
           .then(Response => {
-            commit("", Response.data)
+            commit("SET_SHOP_PRODUCTLIST", Response.data)
           })
           .catch(Error => {
             console.log("Get_ProductList_err")
+          })
+      })
+    },
+    Get_ProductDetails_shop({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        console.log(payload)
+        axios.get('http://localhost:9010/api/public/product-details-shop', { params: { code: payload } })
+          .then(Response => {
+            console.log("*********")
+            console.log(Response.data)
+            commit("", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_ProductDetails_shop_err")
           })
       })
     },

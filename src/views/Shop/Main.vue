@@ -1,7 +1,12 @@
 <template>
   <div>
-    <carousel :autoplay="true" :nav="true" :dots="true" class="marginTop50">
-      <v-img :src="require('@/assets/sweater1.jpg')" height="400px" />
+    <carousel
+      :autoplay="true"
+      :nav="true"
+      :dots="true"
+      :items="4"
+      class="marginTop50"
+    >
       <img src="@/assets/키링.jpg" height="400px" />
       <img src="@/assets/sweater1.jpg" height="400px" />
       <v-img :src="require('@/assets/키링.jpg')" height="400px" />

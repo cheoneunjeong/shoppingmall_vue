@@ -129,6 +129,7 @@ export default {
       Route.push("/shop");
     },
     productlist(item) {
+      this.$store.dispatch("Get_ProductList_shop", item.code);
       Route.push({ name: "ProductList", query: item });
     },
   },
