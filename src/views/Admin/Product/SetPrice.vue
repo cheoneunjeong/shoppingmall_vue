@@ -37,8 +37,7 @@
                   ></v-select> </v-col
               ></v-list-item-title>
               <v-list-item-subtitle
-                >포인트 유형을 설정할 수 있습니다. 비율로 설정했을 경우 설정
-                기준금액의 %비율로 포인트가 지급됩니다.</v-list-item-subtitle
+                >포인트 유형을 설정할 수 있습니다.</v-list-item-subtitle
               >
             </v-list-item-content>
           </template>
@@ -60,9 +59,7 @@
                   >개
                 </v-row></v-list-item-title
               >
-              <v-list-item-subtitle
-                >주문관리에서 상품별 상태 변경에 따라 자동으로 재고를
-                가감합니다. <br />
+              <v-list-item-subtitle>
                 재고는 규격/색상별이 아닌, 상품별로만 관리됩니다. 재고수량을
                 0으로 설정하시면 품절상품으로 표시됩니다.</v-list-item-subtitle
               >
@@ -77,39 +74,22 @@
             </v-list-item-action>
             <v-list-item-content
               ><v-list-item-title>
-                <v-row align="center">
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="option1"
-                      label="option1"
-                    ></v-text-field>
+                <v-container fluid>
+                  <AddOption
+                    v-for="(item, index) in options"
+                    :key="index"
+                    :index="index"
+                  />
+                  <v-col>
+                    <v-btn rounded text @click="addOption">
+                      <font-awesome-icon icon="plus-circle" />
+                      옵션 추가
+                    </v-btn>
                   </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="option1_details"
-                      label="option1 details"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row align="center">
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="option2"
-                      label="option2"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="option2_details"
-                      label="option2 details"
-                    ></v-text-field>
-                  </v-col>
-                </v-row> </v-list-item-title
+                </v-container> </v-list-item-title
               ><v-list-item-subtitle
-                >옵션항목은 콤마(,) 로 구분하여 여러개를 입력할 수 있습니다.<br />
-                스마트폰을 예로 들어 [추가1 : 추가구성상품 , 추가1 항목 :
-                액정보호필름,케이스,충전기] 옵션명과 옵션항목에 <br />
-                따옴표(', ")는 입력할 수 없습니다.</v-list-item-subtitle
+                >옵션을 작성하지 않을 경우 "옵션없음" 으로
+                등록됩니다.</v-list-item-subtitle
               >
             </v-list-item-content>
           </template>
@@ -119,12 +99,14 @@
   </div>
 </template>
 <script>
+import AddOption from "@/views/Admin/Product/AddOption";
 export default {
   data() {
     return {
       pointType: ["판매가기준 설정비율", "구매가기준 설정비율"],
     };
   },
+  components: { AddOption },
   computed: {
     price: {
       get() {
@@ -150,42 +132,28 @@ export default {
         this.$store.commit("update_stock", value);
       },
     },
-    option1: {
+    options: {
       get() {
-        return this.$store.state.product.options[0].option;
+        return this.$store.state.product.options;
       },
       set(value) {
-        let data = { i: 0, value: value };
-        this.$store.commit("update_option1", data);
+        this.$store.commit("update_options", value);
       },
     },
-    option1_details: {
-      get() {
-        return this.$store.state.product.options[0].op_detail;
-      },
-      set(value) {
-        let data = { i: 0, value: value };
-        this.$store.commit("update_option2", data);
-      },
+  },
+  methods: {
+    addOption() {
+      this.$store.state.product.options.push({ option: {} });
     },
-    option2: {
-      get() {
-        return this.$store.state.product.options[1].option;
-      },
-      set(value) {
-        let data = { i: 1, value: value };
-        this.$store.commit("update_option1", data);
-      },
+    consol() {
+      console.log(this.$store.state.product);
     },
-    option2_details: {
-      get() {
-        return this.$store.state.product.options[1].op_detail;
-      },
-      set(value) {
-        let data = { i: 1, value: value };
-        this.$store.commit("update_option2", data);
-      },
-    },
+  },
+
+  created() {
+    if (this.$store.state.product.edit === false) {
+      this.$store.state.product.options.push({ option: {} });
+    }
   },
 };
 </script>

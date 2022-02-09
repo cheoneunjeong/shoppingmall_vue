@@ -3,7 +3,7 @@
     <v-layout>
       <v-flex xs12>
         <v-card>
-          <v-toolbar color="primary" dark flat>
+          <v-toolbar color="hsl(231, 30%, 54%)" dark flat>
             <v-toolbar-title> Login </v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
@@ -30,7 +30,8 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn
-              color="primary"
+              color="hsl(231, 30%, 54%)"
+              dark
               @click="LoginUser({ username: username, password: password })"
               >Login</v-btn
             >

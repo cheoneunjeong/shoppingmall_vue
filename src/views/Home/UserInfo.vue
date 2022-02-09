@@ -96,7 +96,9 @@
     </v-card>
     <br />
     <v-col style="text-align: right">
-      <v-btn dark color="#448AFF" @click="UpdateUserInfo">수정</v-btn>
+      <v-btn dark color="hsl(231, 30%, 54%)" @click="UpdateUserInfo"
+        >수정</v-btn
+      >
     </v-col>
   </div>
 </template>

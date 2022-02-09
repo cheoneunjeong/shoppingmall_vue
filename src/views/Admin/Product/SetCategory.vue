@@ -7,8 +7,7 @@
             <v-list-item-title>상품분류</v-list-item-title>
             <v-list-item-subtitle>
               <br />
-              기본분류는 반드시 선택하셔야 합니다. 하나의 상품에 최대 3개의 다른
-              분류를 지정할 수 있습니다.
+              기본분류는 반드시 선택하셔야 합니다.
             </v-list-item-subtitle>
           </v-list-item-content>
         </v-list-item>
@@ -30,9 +29,7 @@
                   ></v-select> </v-col
               ></v-list-item-title>
               <v-list-item-subtitle
-                >판매/재고/HTML사용/판매자 E-mail 등을, 선택한 분류의 기본값으로
-                설정됩니다. <br />
-                또한 기본분류에 적용된 코드 삭제시, 해당 상품은 자동
+                >기본분류에 적용된 코드 삭제시, 해당 상품은 모두 자동
                 삭제됩니다.</v-list-item-subtitle
               >
             </v-list-item-content>

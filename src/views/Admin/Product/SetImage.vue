@@ -9,61 +9,34 @@
         <v-list-item>
           <template>
             <v-list-item-action style="width: 150px">
-              <p>메인이미지 첨부</p>
+              <p>이미지 첨부</p>
             </v-list-item-action>
             <v-list-item-content
               ><v-col cols="12" md="5">
                 <v-file-input
-                  v-model="mainfile"
+                  v-model="file"
                   accept="image/png, image/jpeg, image/bmp"
                   prepend-icon="mdi-camera"
                   label="image"
-                  @change="onMainImageChange"
+                  @change="onImageChange"
                 ></v-file-input>
               </v-col>
               <div>
                 upload :
                 <v-btn
-                  @click="cancel_main(item)"
+                  @click="cancel(item)"
                   depressed
                   small
-                  v-for="(item, index) in this.mainfiles"
+                  v-for="(item, index) in this.files"
                   :key="index"
                   >{{ item.name }} X</v-btn
                 >
               </div>
-            </v-list-item-content>
-          </template>
-        </v-list-item>
-        <v-list-item>
-          <template>
-            <v-list-item-action style="width: 150px">
-              <p>
-                상세페이지<br />
-                이미지 첨부
-              </p>
-            </v-list-item-action>
-            <v-list-item-content
-              ><v-col cols="12" md="5">
-                <v-file-input
-                  v-model="detailfile"
-                  accept="image/png, image/jpeg, image/bmp"
-                  prepend-icon="mdi-camera"
-                  label="image"
-                  @change="onDetailImageChange"
-                ></v-file-input>
-              </v-col>
-              <div>
-                upload :
-                <v-btn
-                  @click="cancel_detail(item)"
-                  depressed
-                  small
-                  v-for="(item, index) in this.detailfiles"
-                  :key="index"
-                  >{{ item.name }} X</v-btn
-                >
-              </div>
+
+              <v-list-item-subtitle
+                ><br />첫번째 등록된 이미지가 메인이미지로 지정되며, 상세페이지
+                상단, 상품리스트 등 첫 화면에 사용됩니다.
+              </v-list-item-subtitle>
             </v-list-item-content>
           </template>
         </v-list-item>
@@ -75,48 +48,29 @@
 export default {
   data() {
     return {
-      mainfile: null,
-      detailfile: null,
+      file: null,
     };
   },
   computed: {
-    mainfiles: {
+    files: {
       get() {
-        return this.$store.state.product.mainfiles;
+        return this.$store.state.product.files;
       },
       set(value) {
-        this.$store.commit("update_mainfiles", value);
-      },
-    },
-    detailfiles: {
-      get() {
-        return this.$store.state.product.detailfiles;
-      },
-      set(value) {
-        this.$store.commit("update_detailfiles", value);
+        this.$store.commit("update_files", value);
       },
     },
   },
   methods: {
-    onMainImageChange() {
-      if (!!this.mainfile) {
-        this.mainfiles.push(this.mainfile);
-        this.mainfile = null;
+    onImageChange() {
+      if (!!this.file) {
+        this.files.push(this.file);
+        this.file = null;
       }
     },
-    onDetailImageChange() {
-      if (!!this.detailfile) {
-        this.detailfiles.push(this.detailfile);
-        this.detailfile = null;
-      }
-    },
-    cancel_main(item) {
-      const p = this.mainfiles.indexOf(item);
-      this.mainfiles.splice(p, 1);
-    },
-    cancel_detail(item) {
-      const p = this.detailfiles.indexOf(item);
-      this.detailfiles.splice(p, 1);
+    cancel(item) {
+      const p = this.files.indexOf(item);
+      this.files.splice(p, 1);
     },
   },
 };

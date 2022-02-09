@@ -20,6 +20,7 @@ import UserInfo from '@/views/Home/UserInfo'
 import Main from '@/views/Shop/Main'
 import ProductList from '@/views/Shop/ProductList'
 import ProductDetail from '@/views/Shop/ProductDetail'
+import WishList from '@/views/Shop/WishList'
 import Route from '../router/index'
 
 Vue.use(VueRouter)
@@ -82,6 +83,7 @@ const routes = [
       { path: "userinfo", name: 'shopUserInfo', component: UserInfo, beforeEnter: onlyAuthUser },
       { path: "productlist", name: 'ProductList', component: ProductList },
       { path: "productdetail", name: 'ProductDetail', component: ProductDetail },
+      { path: "wishlist", name: 'WishList', component: WishList },
     ]
   },
   {

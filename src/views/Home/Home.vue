@@ -51,10 +51,16 @@
         <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
         <v-toolbar-title app>
-          <v-btn depressed @click="Home()"> project </v-btn>
+          <v-btn depressed @click="Home()"> home </v-btn>
         </v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn depressed color="primary" dark router :to="{ path: '/shop' }">
+        <v-btn
+          depressed
+          color="hsl(231, 30%, 54%)"
+          dark
+          router
+          :to="{ path: '/shop' }"
+        >
           <v-icon>mdi-shopping</v-icon>store
         </v-btn>
         <v-btn

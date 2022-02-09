@@ -19,7 +19,11 @@
                 >
                   <v-btn icon @click="toggle">
                     <v-icon>
-                      {{ active ? "mdi-heart" : "mdi-heart-outline" }}
+                      {{
+                        UserInfo.wishList.indexOf(item.code) !== -1
+                          ? "mdi-heart"
+                          : "mdi-heart-outline"
+                      }}
                     </v-icon>
                   </v-btn>
                 </v-img>
@@ -49,7 +53,7 @@ export default {
     selected: [],
   }),
   computed: {
-    ...mapState(["productList_shop"]),
+    ...mapState(["productList_shop", "UserInfo"]),
   },
   methods: {
     detailPage(code) {

@@ -2,8 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import Route from '../router/index'
-import Shop from '@/views/Shop/Shop'
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -11,6 +9,7 @@ export default new Vuex.Store({
     UserInfo: {
       id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false,
       point: null, address: null, phone: null, AUTH: null, datetime: null, reject: null,
+      wishList: [],
     },
     Categories: [],
     ProductList: [],
@@ -19,11 +18,13 @@ export default new Vuex.Store({
     product: {
       category: '', code: '', name: '', descr: '', type: ["hit", "new", "disc", "recom", "best"],
       sale: false, detail_desc: '', material: '상세페이지 참고', size: '상세페이지 참고', manufacturer: '상세페이지 참고', caution: '상세페이지 참고',
-      price: '', point: '', stock: '', shipping: '', mainfiles: [], detailfiles: [],
-      options: [{ option: null, op_detail: null }, { option: null, op_detail: null }], edit: false
+      price: '', point: '', stock: '', shipping: '', files: [],
+      options: [], edit: false
     },
     Menu: [],
-    productList_shop: []
+    productList_shop: [],
+    productDetails_shop: null,
+    items: [],
   },
   mutations: {
     SET_USER(state, data) {
@@ -40,15 +41,23 @@ export default new Vuex.Store({
       state.UserInfo.AUTH = data.user.auth
       state.UserInfo.datetime = data.user.datetime
       state.UserInfo.reject = data.user.reject
+      state.UserInfo.wishList = data.user.wishList
     },
     LOGOUT(state) {
       state.UserInfo.id = null
       state.UserInfo.name = null
-      state.UserInfo.auth = null
+      state.UserInfo.auth = []
       state.UserInfo.token = null
       state.UserInfo.oauth = null
       state.UserInfo.login_success = false
       state.UserInfo.login_error = false
+      state.UserInfo.address = null
+      state.UserInfo.phone = null
+      state.UserInfo.point = null
+      state.UserInfo.AUTH = null
+      state.UserInfo.datetime = null
+      state.UserInfo.reject = null
+      state.UserInfo.wishList = []
       localStorage.removeItem('token')
       console.log("로그아웃?" + localStorage.getItem('token'))
       if (Route.currentRoute.matched[0].name === "Shop") {
@@ -71,6 +80,7 @@ export default new Vuex.Store({
       state.UserInfo.AUTH = data.user.auth
       state.UserInfo.datetime = data.user.datetime
       state.UserInfo.reject = data.user.reject
+      state.UserInfo.wishList = data.user.wishList
     },
     SET_CATEGORIES(state, data) {
       state.Categories = data
@@ -123,20 +133,17 @@ export default new Vuex.Store({
     update_stock(state, data) {
       state.product.stock = data
     },
-    update_option1(state, data) {
-      state.product.options[data.i].option = data.value
+    update_options(state, data) {
+      state.product.options = data
     },
-    update_option2(state, data) {
-      state.product.options[data.i].op_detail = data.value
+    update_option(state, data) {
+      state.product.options[data.index].option = data.value
     },
     update_shipping(state, data) {
       state.product.shipping = data
     },
-    update_mainfiles(state, data) {
-      state.product.mainfiles = data
-    },
-    update_detailfiles(state, data) {
-      state.product.detailfiles = data
+    update_files(state, data) {
+      state.product.files = data
     },
     SET_PRODUCT_DETAILS(state, data) {
       state.product.edit = true
@@ -172,6 +179,12 @@ export default new Vuex.Store({
     },
     SET_SHOP_PRODUCTLIST(state, data) {
       state.productList_shop = data
+    },
+    SET_PRODUCT_DETAILS_SHOP(state, data) {
+      state.productDetails_shop = data
+    },
+    SET_WISHLIST(state, data) {
+      state.UserInfo.wishList = data
     }
   },
   actions: {
@@ -542,15 +555,26 @@ export default new Vuex.Store({
     },
     Get_ProductDetails_shop({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        console.log(payload)
         axios.get('http://localhost:9010/api/public/product-details-shop', { params: { code: payload } })
           .then(Response => {
-            console.log("*********")
-            console.log(Response.data)
-            commit("", Response.data)
+            commit("SET_PRODUCT_DETAILS_SHOP", Response.data)
           })
           .catch(Error => {
             console.log("Get_ProductDetails_shop_err")
+          })
+      })
+    },
+    Insert_WishList({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        console.log("시작")
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/wishlist', payload)
+          .then(Response => {
+            console.log(Response.data)
+            commit("SET_WISHLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Insert_WishList_err")
           })
       })
     },

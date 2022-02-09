@@ -1,7 +1,7 @@
 <template>
   <div style="width: 90%" class="mx-auto">
     <v-col align="right">
-      <v-btn @click="movePage" color="#E0F2F1" depressed>상품등록</v-btn>
+      <v-btn @click="movePage()" color="#E0F2F1" depressed>상품등록</v-btn>
     </v-col>
     <br />
     <v-card>

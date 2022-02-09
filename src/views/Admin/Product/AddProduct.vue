@@ -52,7 +52,6 @@ export default {
     // 새로운 상품등록
     create() {
       if (this.item === false) {
-        console.log(this.product);
         this.CreateProduct(this.product);
         if (this.product.files.length !== 0) {
           let formData = new FormData();
@@ -64,7 +63,6 @@ export default {
         }
       } else {
         //기존 상품 수정
-        console.log(this.product);
         this.EditProduct(this.product);
         if (this.product.files.length !== 0) {
           let formData = new FormData();
@@ -87,6 +85,7 @@ export default {
     //상품수정이 아니라면 저장돼있던 state 정리
     if (this.$store.state.product.edit === false) {
       this.$store.state.product = {
+        edit: false,
         category: [],
         code: "",
         name: "",
@@ -103,10 +102,7 @@ export default {
         stock: "",
         shipping: "",
         files: [],
-        options: [
-          { option: null, op_detail: null },
-          { option: null, op_detail: null },
-        ],
+        options: [],
       };
     } else {
       //수정페이지라면 create메서드 실행시 구별할수있도록 표시

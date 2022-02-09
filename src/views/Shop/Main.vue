@@ -7,11 +7,13 @@
       :items="4"
       class="marginTop50"
     >
+      <img src="@/assets/tee.jpg" height="400px" />
       <img src="@/assets/키링.jpg" height="400px" />
       <img src="@/assets/sweater1.jpg" height="400px" />
-      <v-img :src="require('@/assets/키링.jpg')" height="400px" />
-      <img src="@/assets/sweater1.jpg" height="400px" />
-      <img src="@/assets/키링.jpg" height="400px" />
+      <v-img :src="require('@/assets/pants1.jpg')" height="400px" />
+      <img src="@/assets/shirt1.jpg" height="400px" />
+      <img src="@/assets/지비츠.jpg" height="400px" />
+      <img src="@/assets/mtm.jpg" height="400px" />
     </carousel>
   </div>
 </template>

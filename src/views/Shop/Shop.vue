@@ -47,6 +47,18 @@
               </v-list-item-icon>
               <v-list-item-title>마이페이지</v-list-item-title>
             </v-list-item>
+            <v-list-item>
+              <v-list-item-icon>
+                <v-icon>mdi-cart</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>장바구니</v-list-item-title>
+            </v-list-item>
+            <v-list-item router :to="{ name: 'WishList' }">
+              <v-list-item-icon>
+                <v-icon>mdi-heart</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>위시리스트</v-list-item-title>
+            </v-list-item>
           </div>
         </v-list>
       </v-navigation-drawer>
