@@ -9,7 +9,7 @@ export default new Vuex.Store({
     UserInfo: {
       id: null, name: null, auth: [], token: null, oauth: null, login_success: false, login_error: false,
       point: null, address: null, phone: null, AUTH: null, datetime: null, reject: null,
-      wishList: [],
+      wishList: [], heartList: [],
     },
     Categories: [],
     ProductList: [],
@@ -24,6 +24,7 @@ export default new Vuex.Store({
     Menu: [],
     productList_shop: [],
     productDetails_shop: null,
+    heartItems: [],
     items: [],
   },
   mutations: {
@@ -185,6 +186,9 @@ export default new Vuex.Store({
     },
     SET_WISHLIST(state, data) {
       state.UserInfo.wishList = data
+    },
+    SET_HEARTLIST(state, data) {
+      state.UserInfo.heartItems = data
     }
   },
   actions: {
@@ -566,15 +570,51 @@ export default new Vuex.Store({
     },
     Insert_WishList({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        console.log("시작")
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.post('http://localhost:9010/api/user/wishlist', payload)
           .then(Response => {
-            console.log(Response.data)
             commit("SET_WISHLIST", Response.data)
           })
           .catch(Error => {
             console.log("Insert_WishList_err")
+          })
+      })
+    },
+    Get_WishList({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/wishlist-details', payload)
+          .then(Response => {
+            commit("SET_SHOP_PRODUCTLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_WishList_err")
+          })
+      })
+    },
+    Delete_WishItem({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.delete('http://localhost:9010/api/user/wishlist', { params: { code: payload } })
+          .then(Response => {
+            console.log(Response.data)
+            commit("SET_SHOP_PRODUCTLIST", Response.data.products)
+            commit("SET_WISHLIST", Response.data.wishItems)
+          })
+          .catch(Error => {
+            console.log("Get_WishList_err")
+          })
+      })
+    },
+    Get_HeartList({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/wishlist-details', payload)
+          .then(Response => {
+            commit("SET_HEARTLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_HeartList_err")
           })
       })
     },

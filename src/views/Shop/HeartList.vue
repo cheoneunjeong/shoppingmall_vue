@@ -1,17 +1,12 @@
 <template>
   <div>
     <v-card elevation="0" style="padding: 50px" class="mx-auto">
-      <v-card-title><h4>장바구니</h4> </v-card-title>
+      <v-card-title><h4>찜목록</h4> </v-card-title>
       <br />
       <v-container class="pa-1">
         <v-item-group v-model="selected" multiple>
           <v-row>
-            <v-col
-              v-for="item in productList_shop"
-              :key="item.code"
-              cols="12"
-              md="3"
-            >
+            <v-col v-for="item in heartItems" :key="item.code" cols="12" md="3">
               <v-item :value="item.code">
                 <v-img
                   :src="require('@/assets/' + item.mainPhoto)"
@@ -30,17 +25,6 @@
                   </v-btn>
                 </v-img>
               </v-item>
-              <br />
-              <v-row>
-                <v-col cols="6"
-                  ><p style="text-align: right">{{ item.name }}</p></v-col
-                >
-                <v-col cols="6"
-                  ><v-btn x-small depressed @click="deleteWishItem(item.code)"
-                    >x</v-btn
-                  ></v-col
-                ></v-row
-              >
             </v-col>
           </v-row>
         </v-item-group>
@@ -50,7 +34,7 @@
 </template>
 <script>
 import Route from "@/router/index";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
@@ -58,7 +42,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["UserInfo", "productList_shop"]),
+    ...mapState(["UserInfo", "heartItems"]),
   },
   methods: {
     detailPage(code) {
@@ -67,17 +51,17 @@ export default {
     addHeartList(code) {
       if (this.UserInfo.heartList.indexOf(code) === -1) {
         this.UserInfo.heartList.push(code);
+        this.$store.dispatch("Get_HeartList", this.UserInfo.heartList);
       } else {
         let i = this.UserInfo.heartList.indexOf(code);
         this.UserInfo.heartList.splice(i, 1);
+        this.$store.dispatch("Get_HeartList", this.UserInfo.heartList);
       }
     },
-    deleteWishItem(code) {
-      this.$store.dispatch("Delete_WishItem", code);
-    },
   },
+
   created() {
-    this.$store.dispatch("Get_WishList", this.UserInfo.wishList);
+    this.$store.dispatch("Get_HeartList", this.UserInfo.heartList);
   },
 };
 </script>

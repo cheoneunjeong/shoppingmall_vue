@@ -10,17 +10,17 @@
               cols="12"
               md="3"
             >
-              <v-item v-slot="{ active, toggle }" :value="item.code">
+              <v-item :value="item.code">
                 <v-img
                   :src="require('@/assets/' + item.mainPhoto)"
                   height="250"
                   class="text-right pa-2"
                   @click="detailPage(item.code)"
                 >
-                  <v-btn icon @click="toggle">
+                  <v-btn icon v-on:click.stop @click="addHeartList(item.code)">
                     <v-icon>
                       {{
-                        UserInfo.wishList.indexOf(item.code) !== -1
+                        UserInfo.heartList.indexOf(item.code) !== -1
                           ? "mdi-heart"
                           : "mdi-heart-outline"
                       }}
@@ -58,6 +58,14 @@ export default {
   methods: {
     detailPage(code) {
       Route.push({ name: "ProductDetail", query: code });
+    },
+    addHeartList(code) {
+      if (this.UserInfo.heartList.indexOf(code) === -1) {
+        this.UserInfo.heartList.push(code);
+      } else {
+        let i = this.UserInfo.heartList.indexOf(code);
+        this.UserInfo.heartList.splice(i, 1);
+      }
     },
   },
 

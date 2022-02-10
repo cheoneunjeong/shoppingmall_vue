@@ -21,6 +21,8 @@ import Main from '@/views/Shop/Main'
 import ProductList from '@/views/Shop/ProductList'
 import ProductDetail from '@/views/Shop/ProductDetail'
 import WishList from '@/views/Shop/WishList'
+import HeartList from '@/views/Shop/HeartList'
+import OrderForm from '@/views/Shop/OrderForm'
 import Route from '../router/index'
 
 Vue.use(VueRouter)
@@ -84,6 +86,8 @@ const routes = [
       { path: "productlist", name: 'ProductList', component: ProductList },
       { path: "productdetail", name: 'ProductDetail', component: ProductDetail },
       { path: "wishlist", name: 'WishList', component: WishList },
+      { path: "heartlist", name: 'HeartList', component: HeartList },
+      { path: "orderform", name: 'OrderForm', component: OrderForm },
     ]
   },
   {
