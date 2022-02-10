@@ -24,8 +24,9 @@ export default new Vuex.Store({
     Menu: [],
     productList_shop: [],
     productDetails_shop: null,
-    heartItems: [],
     items: [],
+    orderRequest: null,
+    orderInfo: { products: [], userInfo: null, receiverInfo: null, payway: null, point: null, total: null }
   },
   mutations: {
     SET_USER(state, data) {
@@ -187,8 +188,30 @@ export default new Vuex.Store({
     SET_WISHLIST(state, data) {
       state.UserInfo.wishList = data
     },
-    SET_HEARTLIST(state, data) {
-      state.UserInfo.heartItems = data
+    SET_ORDER_REQUEST(state, data) {
+      state.orderRequest = data
+    },
+    SET_ORDERINFO(state, data) {
+      state.orderInfo.products = data.products
+      state.orderInfo.userInfo = data.userInfo
+      state.orderInfo.payway = data.payway
+      state.orderInfo.point = data.point
+      state.orderInfo.total = data.total
+      if (data.check === true) {
+        state.orderInfo.receiverInfo = data.userInfo
+      }
+    },
+    update_receiver_name(state, data) {
+      state.orderInfo.receiverInfo.receiver_name = data
+    },
+    update_receiver_phone(state, data) {
+      state.orderInfo.receiverInfo.receiver_phone = data
+    },
+    update_receiver_postcode(state, data) {
+      state.orderInfo.receiverInfo.receiver_postcode = data
+    },
+    update_final_address(state, data) {
+      state.orderInfo.receiverInfo.address = data
     }
   },
   actions: {
@@ -606,16 +629,31 @@ export default new Vuex.Store({
           })
       })
     },
-    Get_HeartList({ commit }, payload) {
+    Get_OrderList({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/wishlist-details', payload)
+        axios.post('http://localhost:9010/api/user/orderlist', payload)
           .then(Response => {
-            commit("SET_HEARTLIST", Response.data)
+            commit("SET_ORDER_REQUEST", Response.data)
           })
           .catch(Error => {
-            console.log("Get_HeartList_err")
+            console.log("Get_OrderList_err")
           })
+      })
+    },
+    Buy_items({ commit, state }, payload) {
+      return new Promise((resolve, reject) => {
+        commit("SET_ORDERINFO", payload)
+        console.log(state.orderInfo)
+        // axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        // axios.post('http://localhost:9010/api/user/orderlist', payload)
+        //   .then(Response => {
+        //     console.log(Response.data)
+        //     commit("SET_ORDER_REQUEST", Response.data)
+        //   })
+        //   .catch(Error => {
+        //     console.log("Get_OrderList_err")
+        //   })
       })
     },
   },

@@ -6,7 +6,12 @@
       <v-container class="pa-1">
         <v-item-group v-model="selected" multiple>
           <v-row>
-            <v-col v-for="item in heartItems" :key="item.code" cols="12" md="3">
+            <v-col
+              v-for="item in productList_shop"
+              :key="item.code"
+              cols="12"
+              md="3"
+            >
               <v-item :value="item.code">
                 <v-img
                   :src="require('@/assets/' + item.mainPhoto)"
@@ -42,7 +47,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["UserInfo", "heartItems"]),
+    ...mapState(["UserInfo", "productList_shop"]),
   },
   methods: {
     detailPage(code) {
@@ -51,17 +56,17 @@ export default {
     addHeartList(code) {
       if (this.UserInfo.heartList.indexOf(code) === -1) {
         this.UserInfo.heartList.push(code);
-        this.$store.dispatch("Get_HeartList", this.UserInfo.heartList);
+        this.$store.dispatch("Get_WishList", this.UserInfo.heartList);
       } else {
         let i = this.UserInfo.heartList.indexOf(code);
         this.UserInfo.heartList.splice(i, 1);
-        this.$store.dispatch("Get_HeartList", this.UserInfo.heartList);
+        this.$store.dispatch("Get_WishList", this.UserInfo.heartList);
       }
     },
   },
 
   created() {
-    this.$store.dispatch("Get_HeartList", this.UserInfo.heartList);
+    this.$store.dispatch("Get_WishList", this.UserInfo.heartList);
   },
 };
 </script>

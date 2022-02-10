@@ -53,23 +53,41 @@
                     dense
                     solo
                     v-model="option"
+                    @change="addOption()"
                   ></v-select>
                 </v-col>
               </v-row>
             </v-container>
+            <v-card v-for="(item, index) in selectedOption" :key="index">
+              <v-row>
+                <v-col cols="10">
+                  <v-card-text> 선택 : {{ item.option }} </v-card-text>
+                </v-col>
+                <v-col>
+                  <v-btn depressed small @click="deleteOption(index)">x</v-btn>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="1"
+                  ><v-btn depressed @click="minusCount(index)">-</v-btn></v-col
+                >
+                <v-col cols="2" style="text-align: right">{{
+                  selectedOption[index].count
+                }}</v-col>
+                <v-col cols="1"
+                  ><v-btn depressed @click="addCount(index)">+</v-btn></v-col
+                >
+                <v-col cols="6" style="text-align: right">
+                  $ •
+                  {{
+                    productDetails_shop.price * selectedOption[index].count
+                  }}</v-col
+                >
+              </v-row>
+            </v-card>
+            <br />
             <v-card-actions>
-              <v-btn
-                color="deep-purple lighten-2"
-                text
-                router
-                :to="{
-                  name: 'OrderForm',
-                  query: {
-                    code: this.productDetails_shop.code,
-                    option: this.option,
-                  },
-                }"
-              >
+              <v-btn color="deep-purple lighten-2" text @click="order()">
                 바로구매
               </v-btn>
               <v-btn color="deep-purple lighten-2" text @click="wishList()">
@@ -86,7 +104,6 @@
           </v-card>
         </v-col>
       </v-row>
-      <br /><br />
       <v-divider class="mx-4"></v-divider>
 
       <v-card-title>상품요약정보</v-card-title>
@@ -127,7 +144,6 @@
             </v-col>
           </v-row>
         </div>
-
         <br /><br />
         {{ productDetails_shop.detail_desc }}
         <br /><br />
@@ -144,14 +160,45 @@
 </template>
 <script>
 import { mapState } from "vuex";
+import Route from "@/router/index";
 export default {
   data() {
     return {
       code: this.$route.query,
       option: null,
+      selectedOption: [],
+      select: [],
+      count: 1,
     };
   },
   methods: {
+    addOption() {
+      if (this.select.indexOf(this.option) === -1) {
+        this.select.push(this.option);
+        this.selectedOption.push({
+          code: this.productDetails_shop.code,
+          option: this.option,
+          count: this.count,
+        });
+      } else {
+        for (let i = 0; i < this.selectedOption.length; i++) {
+          if (this.selectedOption[i].option === this.option) {
+            this.selectedOption[i].count++;
+          }
+        }
+      }
+    },
+    addCount(index) {
+      this.selectedOption[index].count++;
+    },
+    minusCount(index) {
+      if (this.selectedOption[index].count > 1) {
+        this.selectedOption[index].count--;
+      }
+    },
+    deleteOption(index) {
+      this.selectedOption.splice(index, 1);
+    },
     wishList() {
       if (this.UserInfo.login_success === true) {
         if (this.UserInfo.wishList.indexOf(this.code) === -1) {
@@ -172,6 +219,17 @@ export default {
       } else {
         let i = this.UserInfo.heartList.indexOf(code);
         this.UserInfo.heartList.splice(i, 1);
+      }
+    },
+    order() {
+      if (this.UserInfo.login_success === true) {
+        if (this.selectedOption.length !== 0) {
+          Route.push({ name: "OrderForm", query: this.selectedOption });
+        } else {
+          alert("옵션을 선택해주세요.");
+        }
+      } else {
+        alert("로그인이 필요합니다.");
       }
     },
   },
