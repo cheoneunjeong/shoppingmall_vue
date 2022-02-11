@@ -26,7 +26,7 @@ export default new Vuex.Store({
     productDetails_shop: null,
     items: [],
     orderRequest: null,
-    orderInfo: { products: [], userInfo: null, receiverInfo: null, payway: null, point: null, total: null }
+    orderInfo: { products: [], userInfo: null, receiverInfo: null, payway: null, point: null, total: null },
   },
   mutations: {
     SET_USER(state, data) {
@@ -198,7 +198,7 @@ export default new Vuex.Store({
       state.orderInfo.point = data.point
       state.orderInfo.total = data.total
       if (data.check === true) {
-        state.orderInfo.receiverInfo = null
+        state.orderInfo.receiverInfo = {}
         console.log("snf")
       }
     },
@@ -213,7 +213,7 @@ export default new Vuex.Store({
     },
     update_final_address(state, data) {
       state.orderInfo.receiverInfo.address = data
-    }
+    },
   },
   actions: {
     NewUsers({ commit }, payload) {
@@ -288,7 +288,11 @@ export default new Vuex.Store({
           .catch(Error => {
             alert("로그인 유효시간이 만료되었습니다.")
             console.log('UnpackToken_error')
-            Route.push('/')
+            if (Route.currentRoute.matched[0].name === "Shop") {
+              Route.push("/shop/")
+            } else {
+              Route.push("/")
+            }
           })
       })
     },
@@ -642,20 +646,45 @@ export default new Vuex.Store({
           })
       })
     },
-    Buy_items({ commit, state }, payload) {
+    Buy_items({ commit, state, dispatch }, payload) {
       return new Promise((resolve, reject) => {
+        console.log(payload)
         commit("SET_ORDERINFO", payload)
         console.log(state.orderInfo)
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.post('http://localhost:9010/api/user/order', state.orderInfo)
-        //axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload.total } })
-        // .then(Response => {
-        //   console.log(Response.data)
-        //   window.location.href = Response.data.next_redirect_pc_url
-        // })
-        // .catch(Error => {
-        //   console.log("Buy_items_err")
-        // })
+          .then(Response => {
+            dispatch("KakaoPay", payload.total)
+          })
+          .catch(Error => {
+            console.log("Buy_items_err")
+          })
+      })
+    },
+    KakaoPay({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload } })
+          .then(Response => {
+            window.location.href = Response.data.next_redirect_pc_url
+          })
+          .catch(Error => {
+            console.log("kakaopay_err")
+          })
+      })
+    },
+    Get_OrderSuccess_List({ commit, state }) {
+      return new Promise((resolve, reject) => {
+        console.log(state)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/user/order-success', { params: { id: state.UserInfo.id } })
+          .then(Response => {
+            console.log(Response.data)
+            //commit("",)
+          })
+          .catch(Error => {
+            console.log("Get_OrderSuccess_List_err")
+          })
       })
     },
   },

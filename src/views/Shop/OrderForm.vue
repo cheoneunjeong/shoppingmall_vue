@@ -301,7 +301,6 @@ export default {
         total: this.total,
         check: this.check,
       };
-      console.log(info);
       this.$store.dispatch("Buy_items", info);
     },
   },

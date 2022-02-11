@@ -149,10 +149,10 @@ export default {
   },
   created() {
     this.$store.state.orderInfo.receiverInfo = {
-      receiver_name: null,
-      receiver_phone: null,
-      receiver_postcode: null,
-      address: null,
+      receiver_name: "",
+      receiver_phone: "",
+      receiver_postcode: "",
+      address: "",
     };
   },
 };

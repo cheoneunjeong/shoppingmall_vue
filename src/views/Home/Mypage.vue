@@ -133,5 +133,8 @@ export default {
       this.$store.commit("LOGOUT");
     },
   },
+  created() {
+    this.$store.dispatch("Get_OrderSuccess_List");
+  },
 };
 </script>
