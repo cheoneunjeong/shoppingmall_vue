@@ -198,7 +198,8 @@ export default new Vuex.Store({
       state.orderInfo.point = data.point
       state.orderInfo.total = data.total
       if (data.check === true) {
-        state.orderInfo.receiverInfo = data.userInfo
+        state.orderInfo.receiverInfo = null
+        console.log("snf")
       }
     },
     update_receiver_name(state, data) {
@@ -645,15 +646,16 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         commit("SET_ORDERINFO", payload)
         console.log(state.orderInfo)
-        // axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        // axios.post('http://localhost:9010/api/user/orderlist', payload)
-        //   .then(Response => {
-        //     console.log(Response.data)
-        //     commit("SET_ORDER_REQUEST", Response.data)
-        //   })
-        //   .catch(Error => {
-        //     console.log("Get_OrderList_err")
-        //   })
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/order', state.orderInfo)
+        //axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload.total } })
+        // .then(Response => {
+        //   console.log(Response.data)
+        //   window.location.href = Response.data.next_redirect_pc_url
+        // })
+        // .catch(Error => {
+        //   console.log("Buy_items_err")
+        // })
       })
     },
   },

@@ -23,6 +23,8 @@ import ProductDetail from '@/views/Shop/ProductDetail'
 import WishList from '@/views/Shop/WishList'
 import HeartList from '@/views/Shop/HeartList'
 import OrderForm from '@/views/Shop/OrderForm'
+import KakaopaySuccess from '@/views/Shop/KakaopaySuccess'
+import KakaopayFail from '@/views/Shop/KakaopayFail'
 import Route from '../router/index'
 
 Vue.use(VueRouter)
@@ -88,6 +90,8 @@ const routes = [
       { path: "wishlist", name: 'WishList', component: WishList },
       { path: "heartlist", name: 'HeartList', component: HeartList },
       { path: "orderform", name: 'OrderForm', component: OrderForm },
+      { path: "kakaopay-success", name: 'KakaopaySuccess', component: KakaopaySuccess },
+      { path: "kakaopay-fail", name: 'KakaopayFail', component: KakaopayFail },
     ]
   },
   {

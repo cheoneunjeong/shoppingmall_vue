@@ -189,7 +189,6 @@
       </v-col>
     </v-row>
     <br />
-    <v-btn @click="buy">주문</v-btn>
   </div>
 </template>
 <script>
@@ -302,8 +301,8 @@ export default {
         total: this.total,
         check: this.check,
       };
+      console.log(info);
       this.$store.dispatch("Buy_items", info);
-      console.log("kkkkkk");
     },
   },
   created() {
