@@ -90,7 +90,11 @@
               <v-btn color="deep-purple lighten-2" text @click="order()">
                 바로구매
               </v-btn>
-              <v-btn color="deep-purple lighten-2" text @click="wishList()">
+              <v-btn
+                color="deep-purple lighten-2"
+                text
+                @click="insertWishList()"
+              >
                 장바구니
               </v-btn>
               <v-btn
@@ -172,6 +176,17 @@ export default {
     };
   },
   methods: {
+    insertWishList() {
+      if (this.UserInfo.login_success === true) {
+        if (this.selectedOption.length !== 0) {
+          this.$store.dispatch("Insert_WishItems", this.selectedOption);
+        } else {
+          alert("옵션을 선택해주세요.");
+        }
+      } else {
+        alert("로그인이 필요합니다.");
+      }
+    },
     addOption() {
       if (this.select.indexOf(this.option) === -1) {
         this.select.push(this.option);

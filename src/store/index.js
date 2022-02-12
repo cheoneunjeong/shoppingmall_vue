@@ -27,7 +27,8 @@ export default new Vuex.Store({
     items: [],
     orderRequest: null,
     orderInfo: { products: [], userInfo: null, receiverInfo: null, payway: null, point: null, total: null },
-    orderList: []
+    orderList: [],
+    orderInfo_address: { user: null, receiver: null }
   },
   mutations: {
     SET_USER(state, data) {
@@ -44,7 +45,7 @@ export default new Vuex.Store({
       state.UserInfo.AUTH = data.user.auth
       state.UserInfo.datetime = data.user.datetime
       state.UserInfo.reject = data.user.reject
-      state.UserInfo.wishList = data.user.wishList
+      state.UserInfo.wishList = data.user.wishItems
     },
     LOGOUT(state) {
       state.UserInfo.id = null
@@ -83,7 +84,7 @@ export default new Vuex.Store({
       state.UserInfo.AUTH = data.user.auth
       state.UserInfo.datetime = data.user.datetime
       state.UserInfo.reject = data.user.reject
-      state.UserInfo.wishList = data.user.wishList
+      state.UserInfo.wishList = data.user.wishItems
     },
     SET_CATEGORIES(state, data) {
       state.Categories = data
@@ -218,6 +219,10 @@ export default new Vuex.Store({
     SET_ORDERLIST(state, data) {
       state.orderList = data
     },
+    SET_ORDER_ADDRESS(state, data) {
+      state.orderInfo_address.user = data.userInfo
+      state.orderInfo_address.receiver = data.receiverInfo
+    }
   },
   actions: {
     NewUsers({ commit }, payload) {
@@ -600,43 +605,6 @@ export default new Vuex.Store({
           })
       })
     },
-    Insert_WishList({ commit }, payload) {
-      return new Promise((resolve, reject) => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/wishlist', payload)
-          .then(Response => {
-            commit("SET_WISHLIST", Response.data)
-          })
-          .catch(Error => {
-            console.log("Insert_WishList_err")
-          })
-      })
-    },
-    Get_WishList({ commit }, payload) {
-      return new Promise((resolve, reject) => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/wishlist-details', payload)
-          .then(Response => {
-            commit("SET_SHOP_PRODUCTLIST", Response.data)
-          })
-          .catch(Error => {
-            console.log("Get_WishList_err")
-          })
-      })
-    },
-    Delete_WishItem({ commit }, payload) {
-      return new Promise((resolve, reject) => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.delete('http://localhost:9010/api/user/wishlist', { params: { code: payload } })
-          .then(Response => {
-            commit("SET_SHOP_PRODUCTLIST", Response.data.products)
-            commit("SET_WISHLIST", Response.data.wishItems)
-          })
-          .catch(Error => {
-            console.log("Get_WishList_err")
-          })
-      })
-    },
     Get_OrderList({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
@@ -649,6 +617,7 @@ export default new Vuex.Store({
           })
       })
     },
+    //카카오페이 일시적인 오류인지 계속 종료된요청이라고뜸....
     Buy_items({ commit, state, dispatch }, payload) {
       return new Promise((resolve, reject) => {
         commit("SET_ORDERINFO", payload)
@@ -674,12 +643,37 @@ export default new Vuex.Store({
           })
       })
     },
-    Get_OrderSuccess_List({ commit, state }) {
+    // Buy_items({ commit, state, dispatch }, payload) {
+    //   return new Promise((resolve, reject) => {
+    //     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+    //     axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload.total } })
+    //       .then(Response => {
+    //         dispatch("set", payload)
+    //         window.location.href = Response.data.next_redirect_pc_url
+    //       })
+    //       .catch(Error => {
+    //         console.log("Buy_items_err")
+    //       })
+    //   })
+    // },
+    // set({ commit, state, dispatch }, payload) {
+    //   return new Promise((resolve, reject) => {
+    //     commit("SET_ORDERINFO", payload)
+    //     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+    //     axios.post('http://localhost:9010/api/user/order', state.orderInfo)
+    //       .then(Response => {
+    //       })
+    //       .catch(Error => {
+    //         console.log("set_err")
+    //       })
+    //   })
+    // },
+    Get_OrderSuccess_List({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        console.log(state)
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/user/order-success', { params: { id: state.UserInfo.id } })
+        axios.get('http://localhost:9010/api/user/order-success', { params: { id: payload.id } })
           .then(Response => {
+            console.log(Response.data)
             commit("SET_ORDERLIST", Response.data)
           })
           .catch(Error => {
@@ -687,7 +681,56 @@ export default new Vuex.Store({
           })
       })
     },
-
+    Insert_WishItems({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/wishitems', payload)
+          .then(Response => {
+            commit('SET_WISHLIST', Response.data.wishItems)
+            alert("장바구니에 추가되었습니다.")
+          })
+          .catch(Error => {
+            console.log("Insert_WishItems_err")
+          })
+      })
+    },
+    Get_heartList({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/heart-items', payload)
+          .then(Response => {
+            commit("SET_SHOP_PRODUCTLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_heartList_err")
+          })
+      })
+    },
+    deleteWishItems({ commit, state }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.put('http://localhost:9010/api/user/wishitems', payload)
+          .then(Response => {
+            commit("SET_WISHLIST", Response.data)
+            Route.go()
+          })
+          .catch(Error => {
+            console.log("deleteWishItems_err")
+          })
+      })
+    },
+    Get_All_OrderList({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/user/orderlist')
+          .then(Response => {
+            commit("SET_ORDERLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_All_OrderList_err")
+          })
+      })
+    }
   },
   modules: {
   }

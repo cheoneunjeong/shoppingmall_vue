@@ -119,7 +119,6 @@ export default {
         { text: "주문번호", value: "orderCode" },
         { text: "주문일시", value: "datetime" },
         { text: "진행상황", value: "state" },
-        //{text:"주문상품", value:"datetime"},
         { text: "사용포인트", value: "point" },
         { text: "결제금액", value: "total" },
       ],
@@ -148,7 +147,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("Get_OrderSuccess_List");
+    this.$store.dispatch("Get_OrderSuccess_List",this.$store.state.UserInfo );
   },
 };
 </script>

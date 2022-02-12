@@ -25,6 +25,8 @@ import HeartList from '@/views/Shop/HeartList'
 import OrderForm from '@/views/Shop/OrderForm'
 import KakaopayFail from '@/views/Shop/KakaopayFail'
 import OrderDetails from '@/views/Shop/OrderDetails'
+import OrderList from '@/views/Admin/Order/OrderList'
+import OrderAddress from '@/views/Admin/Order/OrderAddress'
 import Route from '../router/index'
 
 Vue.use(VueRouter)
@@ -105,6 +107,9 @@ const routes = [
       { path: "addproduct", name: 'AddProduct', component: AddProduct },
       { path: "user", name: 'User', component: User },
       { path: "point", name: 'Point', component: Point },
+      { path: "orderlist", name: 'OrderList', component: OrderList },
+      { path: "order-address", name: 'OrderAddress', component: OrderAddress },
+      { path: "orderdetails-admin", name: 'OrderDetails_Admin', component: OrderDetails },
     ]
   },
   {

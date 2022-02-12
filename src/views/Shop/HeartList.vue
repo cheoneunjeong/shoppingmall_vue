@@ -56,17 +56,17 @@ export default {
     addHeartList(code) {
       if (this.UserInfo.heartList.indexOf(code) === -1) {
         this.UserInfo.heartList.push(code);
-        this.$store.dispatch("Get_WishList", this.UserInfo.heartList);
+        this.$store.dispatch("Get_heartList", this.UserInfo.heartList);
       } else {
         let i = this.UserInfo.heartList.indexOf(code);
         this.UserInfo.heartList.splice(i, 1);
-        this.$store.dispatch("Get_WishList", this.UserInfo.heartList);
+        this.$store.dispatch("Get_heartList", this.UserInfo.heartList);
       }
     },
   },
 
   created() {
-    this.$store.dispatch("Get_WishList", this.UserInfo.heartList);
+    this.$store.dispatch("Get_heartList", this.UserInfo.heartList);
   },
 };
 </script>

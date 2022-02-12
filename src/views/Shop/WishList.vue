@@ -3,58 +3,47 @@
     <v-card elevation="0" style="padding: 50px" class="mx-auto">
       <v-card-title><h4>장바구니</h4> </v-card-title>
       <br />
-      <v-container class="pa-1">
-        <v-item-group v-model="selected" multiple>
-          <v-row>
-            <v-col
-              v-for="item in productList_shop"
-              :key="item.code"
-              cols="12"
-              md="3"
-            >
-              <v-item :value="item.code">
-                <v-img
-                  :src="require('@/assets/' + item.mainPhoto)"
-                  height="250"
-                  class="text-right pa-2"
-                  @click="detailPage(item.code)"
-                >
-                  <v-btn icon v-on:click.stop @click="addHeartList(item.code)">
-                    <v-icon>
-                      {{
-                        UserInfo.heartList.indexOf(item.code) !== -1
-                          ? "mdi-heart"
-                          : "mdi-heart-outline"
-                      }}
-                    </v-icon>
-                  </v-btn>
-                </v-img>
-              </v-item>
-              <br />
-              <v-row align="center">
-                <v-col cols="3"
-                  ><v-checkbox
-                    v-model="checked"
-                    :value="item.code"
-                  ></v-checkbox>
-                </v-col>
-                <v-col cols="6">{{ item.name }}</v-col>
-                <!-- <v-col cols="6"
-                  ><v-btn x-small depressed @click="deleteWishItem(item.code)"
-                    >x</v-btn
-                  ></v-col> -->
-              </v-row>
-            </v-col>
-          </v-row>
-        </v-item-group>
-      </v-container>
+      <v-card style="padding: 50px" class="mx-auto">
+        <v-row
+          v-for="(item, index) in this.$store.state.UserInfo.wishList"
+          :key="index"
+        >
+          <v-checkbox v-model="checked" :value="item"></v-checkbox>
+          <v-col cols="2">
+            <v-img
+              class="mx-auto"
+              :src="require('@/assets/' + item.product.mainPhoto)"
+              width="100"
+              height="100"
+              @click="detailPage(item.code)"
+            ></v-img>
+          </v-col>
+          <v-col>
+            <v-container>{{ item.product.name }}</v-container>
+          </v-col>
+          <v-col>
+            <v-card-text>옵션 : {{ item.option }} </v-card-text>
+          </v-col>
+          <v-col>
+            <v-card-text>수량 : {{ item.count }} </v-card-text>
+          </v-col>
+          <v-col>
+            <v-card-text
+              >판매가 : {{ item.product.price * item.count }}
+            </v-card-text>
+          </v-col>
+        </v-row>
+      </v-card>
+      <br />
       <v-row style="text-align: right">
         <v-col cols="11">
-          <v-btn @click="orderWishList" dark color="hsl(231, 30%, 54%)"
+          <v-btn @click="order" dark color="hsl(231, 30%, 54%)"
             >주문하기</v-btn
           > </v-col
         ><v-col cols="1">
-          <v-btn dark color="hsl(231, 30%, 54%)">삭제</v-btn>
+          <v-btn @click="deleteWishitems" dark color="hsl(231, 30%, 54%)"
+            >삭제</v-btn
+          >
         </v-col>
       </v-row>
     </v-card>
@@ -71,27 +60,21 @@ export default {
     };
   },
   computed: {
-    ...mapState(["UserInfo", "productList_shop"]),
+    ...mapState(["UserInfo"]),
   },
   methods: {
     detailPage(code) {
       Route.push({ name: "ProductDetail", query: code });
     },
-    addHeartList(code) {
-      if (this.UserInfo.heartList.indexOf(code) === -1) {
-        this.UserInfo.heartList.push(code);
-      } else {
-        let i = this.UserInfo.heartList.indexOf(code);
-        this.UserInfo.heartList.splice(i, 1);
-      }
+    order() {
+      Route.push({ name: "OrderForm", query: this.checked });
     },
-    deleteWishItem(code) {
-      this.$store.dispatch("Delete_WishItem", code);
+    deleteWishitems() {
+      this.$store.dispatch("deleteWishItems", this.checked);
     },
-    orderWishList() {},
   },
   created() {
-    this.$store.dispatch("Get_WishList", this.UserInfo.wishList);
+    console.log(this.$store.state.UserInfo);
   },
 };
 </script>
