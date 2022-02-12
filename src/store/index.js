@@ -27,6 +27,7 @@ export default new Vuex.Store({
     items: [],
     orderRequest: null,
     orderInfo: { products: [], userInfo: null, receiverInfo: null, payway: null, point: null, total: null },
+    orderList: []
   },
   mutations: {
     SET_USER(state, data) {
@@ -213,6 +214,9 @@ export default new Vuex.Store({
     },
     update_final_address(state, data) {
       state.orderInfo.receiverInfo.address = data
+    },
+    SET_ORDERLIST(state, data) {
+      state.orderList = data
     },
   },
   actions: {
@@ -625,7 +629,6 @@ export default new Vuex.Store({
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.delete('http://localhost:9010/api/user/wishlist', { params: { code: payload } })
           .then(Response => {
-            console.log(Response.data)
             commit("SET_SHOP_PRODUCTLIST", Response.data.products)
             commit("SET_WISHLIST", Response.data.wishItems)
           })
@@ -648,9 +651,7 @@ export default new Vuex.Store({
     },
     Buy_items({ commit, state, dispatch }, payload) {
       return new Promise((resolve, reject) => {
-        console.log(payload)
         commit("SET_ORDERINFO", payload)
-        console.log(state.orderInfo)
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.post('http://localhost:9010/api/user/order', state.orderInfo)
           .then(Response => {
@@ -679,16 +680,15 @@ export default new Vuex.Store({
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.get('http://localhost:9010/api/user/order-success', { params: { id: state.UserInfo.id } })
           .then(Response => {
-            console.log(Response.data)
-            //commit("",)
+            commit("SET_ORDERLIST", Response.data)
           })
           .catch(Error => {
             console.log("Get_OrderSuccess_List_err")
           })
       })
     },
-  },
 
+  },
   modules: {
   }
 })

@@ -31,20 +31,32 @@
                 </v-img>
               </v-item>
               <br />
-              <v-row>
-                <v-col cols="6"
-                  ><p style="text-align: right">{{ item.name }}</p></v-col
-                >
-                <v-col cols="6"
+              <v-row align="center">
+                <v-col cols="3"
+                  ><v-checkbox
+                    v-model="checked"
+                    :value="item.code"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="6">{{ item.name }}</v-col>
+                <!-- <v-col cols="6"
                   ><v-btn x-small depressed @click="deleteWishItem(item.code)"
                     >x</v-btn
-                  ></v-col
-                ></v-row
-              >
+                  ></v-col> -->
+              </v-row>
             </v-col>
           </v-row>
         </v-item-group>
       </v-container>
+      <v-row style="text-align: right">
+        <v-col cols="11">
+          <v-btn @click="orderWishList" dark color="hsl(231, 30%, 54%)"
+            >주문하기</v-btn
+          > </v-col
+        ><v-col cols="1">
+          <v-btn dark color="hsl(231, 30%, 54%)">삭제</v-btn>
+        </v-col>
+      </v-row>
     </v-card>
   </div>
 </template>
@@ -55,6 +67,7 @@ export default {
   data() {
     return {
       selected: [],
+      checked: [],
     };
   },
   computed: {
@@ -75,6 +88,7 @@ export default {
     deleteWishItem(code) {
       this.$store.dispatch("Delete_WishItem", code);
     },
+    orderWishList() {},
   },
   created() {
     this.$store.dispatch("Get_WishList", this.UserInfo.wishList);

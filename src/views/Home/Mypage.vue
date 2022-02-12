@@ -96,7 +96,12 @@
         <v-card>
           <v-card-title><h4>주문내역조회</h4> </v-card-title>
           <v-divider></v-divider>
-          <v-data-table :headers="headers" :items="items" :search="search">
+          <v-data-table
+            @click:row="orderDetails"
+            :headers="headers"
+            :items="orderList"
+            :search="search"
+          >
           </v-data-table>
         </v-card>
       </v-col>
@@ -105,17 +110,23 @@
 </template>
 <script>
 import { mapActions, mapState } from "vuex";
+import Route from "@/router/index";
 export default {
   data() {
     return {
       search: "",
-      headers: [],
-      items: [],
-      username: "uu",
+      headers: [
+        { text: "주문번호", value: "orderCode" },
+        { text: "주문일시", value: "datetime" },
+        { text: "진행상황", value: "state" },
+        //{text:"주문상품", value:"datetime"},
+        { text: "사용포인트", value: "point" },
+        { text: "결제금액", value: "total" },
+      ],
     };
   },
   computed: {
-    ...mapState(["UserInfo"]),
+    ...mapState(["UserInfo", "orderList"]),
   },
   methods: {
     ...mapActions(["Delete_User"]),
@@ -131,6 +142,9 @@ export default {
 
     logOut() {
       this.$store.commit("LOGOUT");
+    },
+    orderDetails(row) {
+      Route.push({ name: "OrderDetails", query: row.products });
     },
   },
   created() {
