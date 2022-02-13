@@ -147,7 +147,7 @@ export default {
     },
   },
   created() {
-    this.$store.dispatch("Get_OrderSuccess_List",this.$store.state.UserInfo );
+    this.$store.dispatch("Get_OrderSuccess_List", this.$store.state.UserInfo);
   },
 };
 </script>

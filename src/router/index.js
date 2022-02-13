@@ -61,11 +61,11 @@ const routes = [
     name: 'Home',
     component: Home,
     children: [
-      { path: "login", name: 'Login', component: Login, beforeEnter: rejectAuthUser },
-      { path: "mypage", name: 'Mypage', component: Mypage, beforeEnter: onlyAuthUser },
+      { path: "login", name: 'Login', component: Login, },
+      { path: "mypage", name: 'Mypage', component: Mypage, },
       { path: "signup", name: 'SignUp', component: SignUp },
       { path: "", name: 'HelloWorld', component: HelloWorld },
-      { path: "userinfo", name: 'UserInfo', component: UserInfo, beforeEnter: onlyAuthUser },
+      { path: "userinfo", name: 'UserInfo', component: UserInfo, },
     ]
   },
   // {
@@ -82,10 +82,10 @@ const routes = [
     component: Shop,
     children: [
       { path: "/shop", name: 'Main', component: Main },
-      { path: "login", name: 'shopLogin', component: Login, beforeEnter: rejectAuthUser },
-      { path: "mypage", name: 'shopMypage', component: Mypage, beforeEnter: onlyAuthUser },
+      { path: "login", name: 'shopLogin', component: Login, },
+      { path: "mypage", name: 'shopMypage', component: Mypage, },
       { path: "signup", name: 'shopSignUp', component: SignUp },
-      { path: "userinfo", name: 'shopUserInfo', component: UserInfo, beforeEnter: onlyAuthUser },
+      { path: "userinfo", name: 'shopUserInfo', component: UserInfo, },
       { path: "productlist", name: 'ProductList', component: ProductList },
       { path: "productdetail", name: 'ProductDetail', component: ProductDetail },
       { path: "wishlist", name: 'WishList', component: WishList },

@@ -200,7 +200,7 @@ export default new Vuex.Store({
       state.orderInfo.point = data.point
       state.orderInfo.total = data.total
       if (data.check === true) {
-        state.orderInfo.receiverInfo = {}
+        state.orderInfo.receiverInfo = null
         console.log("snf")
       }
     },
@@ -617,57 +617,55 @@ export default new Vuex.Store({
           })
       })
     },
-    //카카오페이 일시적인 오류인지 계속 종료된요청이라고뜸....
-    Buy_items({ commit, state, dispatch }, payload) {
-      return new Promise((resolve, reject) => {
-        commit("SET_ORDERINFO", payload)
-        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/order', state.orderInfo)
-          .then(Response => {
-            dispatch("KakaoPay", payload.total)
-          })
-          .catch(Error => {
-            console.log("Buy_items_err")
-          })
-      })
-    },
-    KakaoPay({ commit }, payload) {
-      return new Promise((resolve, reject) => {
-        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload } })
-          .then(Response => {
-            window.location.href = Response.data.next_redirect_pc_url
-          })
-          .catch(Error => {
-            console.log("kakaopay_err")
-          })
-      })
-    },
     // Buy_items({ commit, state, dispatch }, payload) {
     //   return new Promise((resolve, reject) => {
+    //     console.log(payload)
+    //     commit("SET_ORDERINFO", payload)
+    //     console.log(state.orderInfo)
     //     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-    //     axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload.total } })
+    //     axios.post('http://localhost:9010/api/user/order', state.orderInfo)
     //       .then(Response => {
-    //         dispatch("set", payload)
-    //         window.location.href = Response.data.next_redirect_pc_url
+    //         commit("SET_ORDERLIST", Response.data)
+    //         dispatch("KakaoPay", payload.total)
     //       })
     //       .catch(Error => {
     //         console.log("Buy_items_err")
     //       })
     //   })
     // },
-    // set({ commit, state, dispatch }, payload) {
+    // KakaoPay({ commit }, payload) {
     //   return new Promise((resolve, reject) => {
-    //     commit("SET_ORDERINFO", payload)
     //     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-    //     axios.post('http://localhost:9010/api/user/order', state.orderInfo)
+    //     axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload } })
     //       .then(Response => {
+    //         window.location.href = Response.data.next_redirect_pc_url
     //       })
     //       .catch(Error => {
-    //         console.log("set_err")
+    //         console.log("kakaopay_err")
     //       })
     //   })
     // },
+    Buy_items({ commit, state, dispatch }, payload) {
+      return new Promise((resolve, reject) => {
+        console.log(payload)
+        commit("SET_ORDERINFO", payload)
+        console.log(state.orderInfo)
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload.total } })
+          .then(Response => {
+            window.location.href = Response.data.next_redirect_pc_url
+            axios.post('http://localhost:9010/api/user/order', payload)
+              .then(Response => {
+              })
+              .catch(Error => {
+                console.log("order_err")
+              })
+              .catch(Error => {
+                console.log("Buy_items_err")
+              })
+          })
+      })
+    },
     Get_OrderSuccess_List({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
