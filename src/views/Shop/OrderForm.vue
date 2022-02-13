@@ -209,7 +209,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["UserInfo", "orderRequest"]),
+    ...mapState(["UserInfo", "orderRequest", "orderInfo"]),
     price: {
       get() {
         for (let i = 0; i < this.orderRequest.length; i++) {
@@ -301,7 +301,28 @@ export default {
         total: this.total,
         check: this.check,
       };
-      this.$store.dispatch("Buy_items", info);
+
+      if (this.name === null) {
+        alert("주문자 이름을 입력해주세요.");
+      } else if (this.phone === null) {
+        alert("주문자 연락처를 입력해주세요.");
+      } else if (this.address === "") {
+        alert("주문자 주소를 입력해주세요.");
+      } else if (this.postcode === null) {
+        alert("주문자 우편번호를 입력해주세요.");
+      } else if (
+        this.orderInfo.receiverInfo.receiver_name === "" ||
+        this.orderInfo.receiverInfo.receiver_phone === "" ||
+        this.orderInfo.receiverInfo.receiver_postcode === ""
+      ) {
+        if (this.check === true) {
+          this.$store.dispatch("Buy_items", info);
+        } else {
+          alert("수취인 정보를 정확히 입력해주세요.");
+        }
+      } else {
+        this.$store.dispatch("Buy_items", info);
+      }
     },
   },
   created() {

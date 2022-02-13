@@ -37,7 +37,8 @@
                   ></v-select> </v-col
               ></v-list-item-title>
               <v-list-item-subtitle
-                >포인트 유형을 설정할 수 있습니다.</v-list-item-subtitle
+                >포인트 유형을 설정할 수 있습니다. 기본설정비율은 판매가기준 3%
+                입니다.</v-list-item-subtitle
               >
             </v-list-item-content>
           </template>
@@ -103,7 +104,7 @@ import AddOption from "@/views/Admin/Product/AddOption";
 export default {
   data() {
     return {
-      pointType: ["판매가기준 설정비율", "구매가기준 설정비율"],
+      pointType: ["판매가기준 설정비율"],
     };
   },
   components: { AddOption },

@@ -35,6 +35,7 @@ export default {
         { text: "주문상태", value: "state" },
         { text: "결제수단", value: "payway" },
         { text: "사용포인트", value: "point" },
+        { text: "지급예상포인트", value: "givePoint", width: "10%" },
         { text: "결제금액", value: "total" },
         { text: "", value: "address" },
         { text: "", value: "product" },

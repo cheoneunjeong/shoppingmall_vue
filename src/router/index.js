@@ -24,11 +24,11 @@ import WishList from '@/views/Shop/WishList'
 import HeartList from '@/views/Shop/HeartList'
 import OrderForm from '@/views/Shop/OrderForm'
 import KakaopayFail from '@/views/Shop/KakaopayFail'
+import KakaopaySuccess from '@/views/Shop/KakaopaySuccess'
 import OrderDetails from '@/views/Shop/OrderDetails'
 import OrderList from '@/views/Admin/Order/OrderList'
 import OrderAddress from '@/views/Admin/Order/OrderAddress'
 import Route from '../router/index'
-
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
@@ -92,6 +92,7 @@ const routes = [
       { path: "heartlist", name: 'HeartList', component: HeartList },
       { path: "orderform", name: 'OrderForm', component: OrderForm },
       { path: "kakaopay-fail", name: 'KakaopayFail', component: KakaopayFail },
+      { path: "kakaopay-success", name: 'KakaopaySuccess', component: KakaopaySuccess },
       { path: "orderdetails", name: 'OrderDetails', component: OrderDetails },
     ]
   },

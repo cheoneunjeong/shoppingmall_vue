@@ -14,5 +14,9 @@
   </div>
 </template>
 <script>
-export default {};
+export default {
+  created() {
+    this.$store.dispatch("Delete_FailOrderInfo");
+  },
+};
 </script>

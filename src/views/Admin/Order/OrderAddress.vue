@@ -28,7 +28,9 @@
               <v-list-item-action style="width: 200px">
                 우편번호
               </v-list-item-action>
-              <v-list-item-content> </v-list-item-content>
+              <v-list-item-content>
+                {{ this.orderInfo_address.user.postcode }}
+              </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
             <v-list-item>

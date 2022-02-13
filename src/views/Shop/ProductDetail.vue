@@ -231,9 +231,11 @@ export default {
     addHeartList(code) {
       if (this.UserInfo.heartList.indexOf(code) === -1) {
         this.UserInfo.heartList.push(code);
+        alert("찜목록에 추가되었습니다.");
       } else {
         let i = this.UserInfo.heartList.indexOf(code);
         this.UserInfo.heartList.splice(i, 1);
+        alert("찜목록에서 삭제되었습니다.");
       }
     },
     order() {

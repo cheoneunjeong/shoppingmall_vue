@@ -26,7 +26,16 @@ export default new Vuex.Store({
     productDetails_shop: null,
     items: [],
     orderRequest: null,
-    orderInfo: { products: [], userInfo: null, receiverInfo: null, payway: null, point: null, total: null },
+    orderInfo: {
+      products: [], userInfo: null,
+      receiverInfo: {
+        receiver_name: "",
+        receiver_phone: "",
+        receiver_postcode: "",
+        address: "",
+      },
+      payway: null, point: null, total: null
+    },
     orderList: [],
     orderInfo_address: { user: null, receiver: null }
   },
@@ -200,7 +209,12 @@ export default new Vuex.Store({
       state.orderInfo.point = data.point
       state.orderInfo.total = data.total
       if (data.check === true) {
-        state.orderInfo.receiverInfo = null
+        state.orderInfo.receiverInfo = {
+          receiver_name: "",
+          receiver_phone: "",
+          receiver_postcode: "",
+          address: null,
+        }
         console.log("snf")
       }
     },
@@ -647,14 +661,12 @@ export default new Vuex.Store({
     // },
     Buy_items({ commit, state, dispatch }, payload) {
       return new Promise((resolve, reject) => {
-        console.log(payload)
         commit("SET_ORDERINFO", payload)
-        console.log(state.orderInfo)
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload.total } })
+        axios.post('http://localhost:9010/api/user/kakaopay', payload)
           .then(Response => {
             window.location.href = Response.data.next_redirect_pc_url
-            axios.post('http://localhost:9010/api/user/order', payload)
+            axios.post('http://localhost:9010/api/user/order', state.orderInfo)
               .then(Response => {
               })
               .catch(Error => {
@@ -671,7 +683,6 @@ export default new Vuex.Store({
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.get('http://localhost:9010/api/user/order-success', { params: { id: payload.id } })
           .then(Response => {
-            console.log(Response.data)
             commit("SET_ORDERLIST", Response.data)
           })
           .catch(Error => {
@@ -728,8 +739,34 @@ export default new Vuex.Store({
             console.log("Get_All_OrderList_err")
           })
       })
-    }
+    },
+    Delete_FailOrderInfo({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.delete('http://localhost:9010/api/user/orderinfo')
+          .then(Response => {
+          })
+          .catch(Error => {
+            console.log("Delete_FailOrderInfo_err")
+          })
+      })
+    },
+    //사용자 포인트차감 & 상품재고차감
+    After_Success_Order({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.delete('http://localhost:9010/api/user/user-point')
+          .then(Response => {
+          })
+          .catch(Error => {
+            console.log("Success_Order_err")
+          })
+      })
+    },
+
   },
+
+
   modules: {
   }
 })

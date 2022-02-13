@@ -71,7 +71,7 @@
 
         <v-col cols="12" align="center">
           <v-btn depressed color="#EDE7F6" @click="main()">
-            <h1 class="font-weight-bold basil--text">BASiL</h1>
+            <h1 class="font-weight-bold basil--text">purple</h1>
           </v-btn>
         </v-col>
 
