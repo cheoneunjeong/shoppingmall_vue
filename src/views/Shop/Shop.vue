@@ -60,6 +60,12 @@
             </v-list-item-icon>
             <v-list-item-title>찜목록</v-list-item-title>
           </v-list-item>
+          <v-list-item router :to="{ name: 'QABoardList' }">
+            <v-list-item-icon>
+              <v-icon>mdi-note</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>문의게시판</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-navigation-drawer>
 

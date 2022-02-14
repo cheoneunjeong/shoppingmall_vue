@@ -26,9 +26,13 @@ import OrderForm from '@/views/Shop/OrderForm'
 import KakaopayFail from '@/views/Shop/KakaopayFail'
 import KakaopaySuccess from '@/views/Shop/KakaopaySuccess'
 import OrderDetails from '@/views/Shop/OrderDetails'
-import OrderList from '@/views/Admin/Order/OrderList'
-import OrderAddress from '@/views/Admin/Order/OrderAddress'
-import Route from '../router/index'
+import OrderList from '@/views/Admin/List/OrderList'
+import OrderAddress from '@/views/Admin/List/OrderAddress'
+import QABoardList from '@/views/Shop/QABoardList'
+import WriteQA from '@/views/Shop/WriteQA'
+import QADetails from '@/views/Shop/QADetails'
+import WriteAnswer from '@/views/Shop/WriteAnswer'
+import Route from './index'
 Vue.use(VueRouter)
 
 const rejectAuthUser = (to, from, next) => {
@@ -94,6 +98,10 @@ const routes = [
       { path: "kakaopay-fail", name: 'KakaopayFail', component: KakaopayFail },
       { path: "kakaopay-success", name: 'KakaopaySuccess', component: KakaopaySuccess },
       { path: "orderdetails", name: 'OrderDetails', component: OrderDetails },
+      { path: "qaboardlist", name: 'QABoardList', component: QABoardList },
+      { path: "writeqa", name: 'WriteQA', component: WriteQA },
+      { path: "qadetails", name: 'QADetails', component: QADetails },
+      { path: "write-answer", name: 'WriteAnswer', component: WriteAnswer },
     ]
   },
   {
@@ -111,6 +119,10 @@ const routes = [
       { path: "orderlist", name: 'OrderList', component: OrderList },
       { path: "order-address", name: 'OrderAddress', component: OrderAddress },
       { path: "orderdetails-admin", name: 'OrderDetails_Admin', component: OrderDetails },
+      { path: "qaboardlist", name: 'QABoardList_admin', component: QABoardList },
+      { path: "writeqa", name: 'WriteQA_admin', component: WriteQA },
+      { path: "qadetails", name: 'QADetails_admin', component: QADetails },
+      { path: "write-answer", name: 'WriteAnswer_admin', component: WriteAnswer },
     ]
   },
   {

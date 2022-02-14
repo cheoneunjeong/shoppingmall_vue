@@ -57,6 +57,12 @@
               <v-list-item-title>주문내역관리</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
+          <v-list-item router :to="{ name: 'QABoardList_admin' }">
+            <v-list-item-action> </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>문의게시판</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
         </v-list-group>
         <v-list-group>
           <v-list-item slot="activator">

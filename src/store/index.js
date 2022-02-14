@@ -37,7 +37,9 @@ export default new Vuex.Store({
       payway: null, point: null, total: null
     },
     orderList: [],
-    orderInfo_address: { user: null, receiver: null }
+    orderInfo_address: { user: null, receiver: null },
+    QABoardList: [],
+    QAPost: null
   },
   mutations: {
     SET_USER(state, data) {
@@ -236,6 +238,12 @@ export default new Vuex.Store({
     SET_ORDER_ADDRESS(state, data) {
       state.orderInfo_address.user = data.userInfo
       state.orderInfo_address.receiver = data.receiverInfo
+    },
+    SET_QABOARDLIST(state, data) {
+      state.QABoardList = data
+    },
+    SET_QADETAILS(state, data) {
+      state.QAPost = data
     }
   },
   actions: {
@@ -763,6 +771,81 @@ export default new Vuex.Store({
           })
       })
     },
+    Save_QuestionPost({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/q-post', payload)
+          .then(Response => {
+            Route.push("/shop/qaboardlist")
+          })
+          .catch(Error => {
+            console.log("Save_QuestionPost_err")
+          })
+      })
+    },
+    Get_QABoardList({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.get('http://localhost:9010/api/public/qa-post')
+          .then(Response => {
+            commit("SET_QABOARDLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_QABoardList_err")
+          })
+      })
+    },
+    Get_QAPostDetails({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get('http://localhost:9010/api/public/qa-post-details', { params: { num: payload } })
+          .then(Response => {
+            commit("SET_QADETAILS", Response.data)
+            if (Route.currentRoute.matched[0].name === "Shop") {
+              Route.push("/shop/qadetails")
+            } else {
+              Route.push("/admin/qadetails")
+            }
+
+          })
+          .catch(Error => {
+            console.log("Get_QAPostDetails_err")
+          })
+      })
+    },
+    Save_AnswerPost({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/a-post', payload)
+          .then(Response => {
+            if (Route.currentRoute.matched[0].name === "Shop") {
+              Route.push("/shop/qaboardlist")
+            } else {
+              Route.push("/admin/qaboardlist")
+            }
+
+          })
+          .catch(Error => {
+            console.log("Save_AnswerPost_err")
+          })
+      })
+    },
+    DeleteSelectedPost({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/admin/delete-post', payload)
+          .then(Response => {
+            if (Route.currentRoute.matched[0].name === "Shop") {
+              Route.push("/shop/qaboardlist")
+            } else {
+              Route.push("/admin/qaboardlist")
+            }
+
+          })
+          .catch(Error => {
+            console.log("Save_AnswerPost_err")
+          })
+      })
+    },
+
 
   },
 
