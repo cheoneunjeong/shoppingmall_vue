@@ -16,7 +16,7 @@
             <v-card-text>
               <v-row align="center" class="mx-0">
                 <v-rating
-                  :value="4.5"
+                  :value="productDetails_shop.rating"
                   color="amber"
                   dense
                   half-increments
@@ -24,7 +24,9 @@
                   size="14"
                 ></v-rating>
 
-                <div class="grey--text ms-4">4.5 (413)</div>
+                <div class="grey--text ms-4">
+                  {{ productDetails_shop.rating }}
+                </div>
               </v-row>
               <br />
               <div class="my-4 text-subtitle-1">
@@ -160,6 +162,17 @@
         </v-col>
       </v-card-text>
     </v-card>
+    <v-card elevation="0" style="padding: 50px" class="mx-auto">
+      <v-card-title><h4>상품후기</h4> </v-card-title>
+      <br />
+      <v-container class="pa-1">
+        <v-data-table
+          @click:row="reviewDetails"
+          :headers="headers"
+          :items="ReviewList"
+        ></v-data-table>
+      </v-container>
+    </v-card>
   </div>
 </template>
 <script>
@@ -173,6 +186,11 @@ export default {
       selectedOption: [],
       select: [],
       count: 1,
+      headers: [
+        { text: "제목", value: "title" },
+        { text: "작성자", value: "writer" },
+        { text: "작성일시", value: "datetime" },
+      ],
     };
   },
   methods: {
@@ -249,12 +267,16 @@ export default {
         alert("로그인이 필요합니다.");
       }
     },
+    reviewDetails(row) {
+      Route.push({ name: "ReviewDetails", query: { item: row } });
+    },
   },
   computed: {
-    ...mapState(["productDetails_shop", "UserInfo"]),
+    ...mapState(["productDetails_shop", "UserInfo", "ReviewList"]),
   },
   created() {
     this.$store.dispatch("Get_ProductDetails_shop", this.code);
+    this.$store.dispatch("Get_Reviews", this.$route.query);
   },
 };
 </script>

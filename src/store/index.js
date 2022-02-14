@@ -39,7 +39,8 @@ export default new Vuex.Store({
     orderList: [],
     orderInfo_address: { user: null, receiver: null },
     QABoardList: [],
-    QAPost: null
+    QAPost: null,
+    ReviewList: [],
   },
   mutations: {
     SET_USER(state, data) {
@@ -244,6 +245,9 @@ export default new Vuex.Store({
     },
     SET_QADETAILS(state, data) {
       state.QAPost = data
+    },
+    SET_REVIEW_LIST(state, data) {
+      state.ReviewList = data
     }
   },
   actions: {
@@ -833,20 +837,98 @@ export default new Vuex.Store({
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
         axios.post('http://localhost:9010/api/admin/delete-post', payload)
           .then(Response => {
-            if (Route.currentRoute.matched[0].name === "Shop") {
+            console.log(Route.currentRoute)
+            if (Route.currentRoute.name === "QADetails") {
               Route.push("/shop/qaboardlist")
-            } else {
+            } else if (Route.currentRoute.name === "QADetails_admin") {
               Route.push("/admin/qaboardlist")
+            } else {
+              Route.go()
             }
-
           })
           .catch(Error => {
             console.log("Save_AnswerPost_err")
           })
       })
     },
-
-
+    Save_Review({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/review', payload)
+          .then(Response => {
+            Route.push('/shop/mypage')
+          })
+          .catch(Error => {
+            console.log("Save_Review_err")
+          })
+      })
+    },
+    Get_Reviews({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.get('http://localhost:9010/api/public/review', { params: { code: payload } })
+          .then(Response => {
+            commit("SET_REVIEW_LIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_Reviews_err")
+          })
+      })
+    },
+    DeleteReviews({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.post('http://localhost:9010/api/user/delete-review', payload)
+          .then(Response => {
+            alert("정상적으로 삭제되었습니다.")
+            if (Route.currentRoute.name === "ReviewDetails_admin") {
+              Route.push({ name: "ReviewList" })
+            } else if (Route.currentRoute.name === "ReviewList") {
+              Route.go()
+            } else {
+              Route.push("/shop")
+            }
+          })
+          .catch(Error => {
+            console.log("DeleteReviews_err")
+          })
+      })
+    },
+    Get_ReviewList({ commit }) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/admin/review-list')
+          .then(Response => {
+            commit("SET_REVIEW_LIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_ReviewList_err")
+          })
+      })
+    },
+    Edit_Review({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.put('http://localhost:9010/api/user/review', payload)
+          .then(Response => {
+            Route.push("/shop")
+          })
+          .catch(Error => {
+            console.log("Edit_Review_err")
+          })
+      })
+    },
+    Get_Users_review({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/user/review', { params: { id: payload } })
+          .then(Response => {
+            commit("SET_REVIEW_LIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_Users_review_err")
+          })
+      })
+    },
   },
 
 

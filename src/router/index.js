@@ -32,6 +32,12 @@ import QABoardList from '@/views/Shop/QABoardList'
 import WriteQA from '@/views/Shop/WriteQA'
 import QADetails from '@/views/Shop/QADetails'
 import WriteAnswer from '@/views/Shop/WriteAnswer'
+import WriteReview from '@/views/Shop/WriteReview'
+import ReviewDetails from '@/views/Shop/ReviewDetails'
+import EditReview from '@/views/Shop/EditReview'
+import OrderProduct from '@/views/Admin/List/OrderProduct'
+import ReviewList from '@/views/Admin/List/ReviewList'
+import QABoard from '@/views/Admin/List/QABoard'
 import Route from './index'
 Vue.use(VueRouter)
 
@@ -102,6 +108,9 @@ const routes = [
       { path: "writeqa", name: 'WriteQA', component: WriteQA },
       { path: "qadetails", name: 'QADetails', component: QADetails },
       { path: "write-answer", name: 'WriteAnswer', component: WriteAnswer },
+      { path: "write-review", name: 'WriteReview', component: WriteReview },
+      { path: "reviewdetails", name: 'ReviewDetails', component: ReviewDetails },
+      { path: "editreview", name: 'EditReview', component: EditReview },
     ]
   },
   {
@@ -119,10 +128,13 @@ const routes = [
       { path: "orderlist", name: 'OrderList', component: OrderList },
       { path: "order-address", name: 'OrderAddress', component: OrderAddress },
       { path: "orderdetails-admin", name: 'OrderDetails_Admin', component: OrderDetails },
-      { path: "qaboardlist", name: 'QABoardList_admin', component: QABoardList },
+      { path: "qaboardlist", name: 'QABoard', component: QABoard },
       { path: "writeqa", name: 'WriteQA_admin', component: WriteQA },
       { path: "qadetails", name: 'QADetails_admin', component: QADetails },
       { path: "write-answer", name: 'WriteAnswer_admin', component: WriteAnswer },
+      { path: "orderproduct", name: 'OrderProduct', component: OrderProduct },
+      { path: "reviewlist", name: 'ReviewList', component: ReviewList },
+      { path: "reviewdetails", name: 'ReviewDetails_admin', component: ReviewDetails },
     ]
   },
   {

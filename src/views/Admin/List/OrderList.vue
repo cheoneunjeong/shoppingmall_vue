@@ -51,7 +51,7 @@ export default {
       Route.push("/admin/order-address");
     },
     orderDetails(item) {
-      Route.push({ name: "OrderDetails_Admin", query: item.products });
+      Route.push({ name: "OrderProduct", query: item.products });
     },
   },
   created() {

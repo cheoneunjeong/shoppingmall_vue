@@ -1,6 +1,6 @@
 <template>
   <div style="width: 100%">
-    <v-card elevation="0" style="padding: 50px" class="mx-auto">
+    <v-card>
       <v-card-title><h4>문의 게시판</h4> </v-card-title>
       <br />
 
@@ -32,11 +32,10 @@
           ></v-switch>
         </template>
       </v-container>
+      <v-col align="right">
+        <v-btn depressed @click="DeleteSelectedPost">선택삭제</v-btn>
+      </v-col>
     </v-card>
-    <v-col align="right">
-      <v-btn depressed @click="WriteQA"> 글작성 </v-btn>
-      <v-btn depressed @click="DeleteSelectedPost">삭제</v-btn>
-    </v-col>
   </div>
 </template>
 <script>
@@ -62,13 +61,6 @@ export default {
     ...mapState(["QABoardList"]),
   },
   methods: {
-    WriteQA() {
-      if (this.$store.state.UserInfo.login_success === true) {
-        Route.push({ name: "WriteQA" });
-      } else {
-        alert("로그인이 필요한 기능입니다.");
-      }
-    },
     boardDetail(row) {
       this.$store.dispatch("Get_QAPostDetails", row.num);
     },

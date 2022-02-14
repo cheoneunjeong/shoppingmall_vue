@@ -1,7 +1,7 @@
 <template>
   <div style="width: 100%">
     <v-card elevation="0" style="padding: 50px" class="mx-auto">
-      <v-card-title><h4>게시글</h4> </v-card-title>
+      <v-card-title><h4>후기글</h4> </v-card-title>
       <br />
       <v-container class="pa-1">
         <v-card style="padding: 20px">
@@ -9,7 +9,7 @@
             <v-list-item>
               <v-list-item-content
                 ><p class="text-md-center">
-                  {{ QAPost.title }}
+                  {{ item.title }}
                 </p></v-list-item-content
               >
             </v-list-item>
@@ -17,25 +17,35 @@
             <v-list-item>
               <v-list-item-action> 작성일시 : </v-list-item-action>
               <v-list-item-content>
-                {{ QAPost.datetime }}
+                {{ item.datetime }}
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
               <v-list-item-action> 작성자 : </v-list-item-action>
               <v-list-item-content>
-                {{ QAPost.writer }}
+                {{ item.writer }}
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-action> 별점 : </v-list-item-action>
+              <v-list-item-content>
+                <v-rating
+                  v-model="rating"
+                  background-color="orange lighten-3"
+                  color="orange"
+                ></v-rating>
               </v-list-item-content>
             </v-list-item>
             <v-divider></v-divider>
             <br />
             <v-list-item>
-              {{ QAPost.content }}
+              {{ item.content }}
             </v-list-item>
           </v-list>
         </v-card>
         <v-col align="right">
-          <v-btn depressed @click="WriteAnswer">답글달기 </v-btn>
-          <v-btn depressed @click="DeletePost">삭제 </v-btn>
+          <v-btn depressed @click="editReview">수정 </v-btn>
+          <v-btn depressed @click="DeleteReview">삭제 </v-btn>
         </v-col>
       </v-container>
     </v-card>
@@ -46,36 +56,32 @@ import Route from "@/router/index";
 import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      item: this.$route.query.item,
+      rating: this.$route.query.item.rating,
+    };
   },
   computed: {
-    ...mapState(["QAPost", "UserInfo"]),
+    ...mapState(["UserInfo"]),
   },
   methods: {
-    WriteAnswer() {
-      if (
-        this.$store.state.UserInfo.login_success === true &&
-        this.UserInfo.auth.indexOf("ROLE_ADMIN") !== -1
-      ) {
-        if (Route.currentRoute.matched[0].name === "Shop") {
-          Route.push({ name: "WriteAnswer", query: this.QAPost });
-        } else {
-          Route.push({ name: "WriteAnswer_admin", query: this.QAPost });
-        }
-      } else {
-        alert("관리자 기능입니다.");
-      }
-    },
-    DeletePost() {
+    DeleteReview() {
       if (
         this.UserInfo.auth.indexOf("ROLE_ADMIN") !== -1 ||
-        this.UserInfo.id === this.QAPost.writer
+        this.UserInfo.id === this.item.writer
       ) {
         let list = [];
-        list.push(this.QAPost);
-        this.$store.dispatch("DeleteSelectedPost", list);
+        list.push(this.item);
+        this.$store.dispatch("DeleteReviews", list);
       } else {
         alert("삭제권한이 없습니다.");
+      }
+    },
+    editReview() {
+      if (this.UserInfo.id === this.item.writer) {
+        Route.push({ name: "EditReview", query: { item: this.item } });
+      } else {
+        alert("수정권한이 없습니다.");
       }
     },
   },
