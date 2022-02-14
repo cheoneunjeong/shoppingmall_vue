@@ -67,6 +67,7 @@ export default {
       Route.push({ name: "ProductDetail", query: code });
     },
     order() {
+      console.log(this.checked);
       Route.push({ name: "OrderForm", query: this.checked });
     },
     deleteWishitems() {

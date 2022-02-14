@@ -41,6 +41,7 @@ export default new Vuex.Store({
     QABoardList: [],
     QAPost: null,
     ReviewList: [],
+    TotalSales: [],
   },
   mutations: {
     SET_USER(state, data) {
@@ -218,7 +219,6 @@ export default new Vuex.Store({
           receiver_postcode: "",
           address: null,
         }
-        console.log("snf")
       }
     },
     update_receiver_name(state, data) {
@@ -248,6 +248,9 @@ export default new Vuex.Store({
     },
     SET_REVIEW_LIST(state, data) {
       state.ReviewList = data
+    },
+    SET_TOTAL_SALES(state, data) {
+      state.TotalSales = data
     }
   },
   actions: {
@@ -718,7 +721,7 @@ export default new Vuex.Store({
     Get_heartList({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/heart-items', payload)
+        axios.post('http://localhost:9010/api/public/heart-items', payload)
           .then(Response => {
             commit("SET_SHOP_PRODUCTLIST", Response.data)
           })
@@ -929,6 +932,32 @@ export default new Vuex.Store({
           })
       })
     },
+    Total_Sales({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/admin/sales', { params: { date: payload } })
+          .then(Response => {
+            commit("SET_TOTAL_SALES", Response.data)
+          })
+          .catch(Error => {
+            console.log("Total_Sales_err")
+          })
+      })
+    },
+    Get_Ranking_List({ commit }, payload) {
+      return new Promise((resolve, reject) => {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
+        axios.get('http://localhost:9010/api/admin/ranking-list', { params: { type: payload } })
+          .then(Response => {
+            commit("SET_PRODUCTLIST", Response.data)
+          })
+          .catch(Error => {
+            console.log("Get_Ranking_List_err")
+          })
+      })
+    },
+
+
   },
 
 

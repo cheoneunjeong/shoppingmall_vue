@@ -38,6 +38,7 @@ import EditReview from '@/views/Shop/EditReview'
 import OrderProduct from '@/views/Admin/List/OrderProduct'
 import ReviewList from '@/views/Admin/List/ReviewList'
 import QABoard from '@/views/Admin/List/QABoard'
+import Chart from '@/views/Admin/Chart/Chart'
 import Route from './index'
 Vue.use(VueRouter)
 
@@ -135,6 +136,7 @@ const routes = [
       { path: "orderproduct", name: 'OrderProduct', component: OrderProduct },
       { path: "reviewlist", name: 'ReviewList', component: ReviewList },
       { path: "reviewdetails", name: 'ReviewDetails_admin', component: ReviewDetails },
+      { path: "chart", name: 'Chart', component: Chart },
     ]
   },
   {

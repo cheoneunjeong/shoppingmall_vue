@@ -215,7 +215,7 @@ export default {
         for (let i = 0; i < this.orderRequest.length; i++) {
           let item =
             this.orderRequest[i].product.price * this.orderRequest[i].count;
-          this.price_ = +item;
+          this.price_ = this.price_ + item;
         }
         return this.price_;
       },

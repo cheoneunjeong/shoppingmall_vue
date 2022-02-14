@@ -20,14 +20,6 @@
           <v-list-item slot="activator">
             <v-list-item-action> </v-list-item-action>
             <v-list-item-content>
-              <font-awesome-icon icon="cog" />
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-group>
-        <v-list-group>
-          <v-list-item slot="activator">
-            <v-list-item-action> </v-list-item-action>
-            <v-list-item-content>
               <font-awesome-icon icon="user" />
             </v-list-item-content>
           </v-list-item>
@@ -97,12 +89,10 @@
               <font-awesome-icon icon="chart-bar" />
             </v-list-item-content>
           </v-list-item>
-        </v-list-group>
-        <v-list-group>
-          <v-list-item slot="activator">
+          <v-list-item router :to="{ name: 'Chart' }">
             <v-list-item-action> </v-list-item-action>
             <v-list-item-content>
-              <font-awesome-icon icon="envelope" />
+              <v-list-item-title>통계</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list-group>
