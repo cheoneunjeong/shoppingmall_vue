@@ -19,7 +19,7 @@
       <v-divider></v-divider>
 
       <v-card-text class="white--text">
-        {{ new Date().getFullYear() }} — <strong>jeong-project</strong>
+        {{ new Date().getFullYear() }} — <strong>SHOPPINGMALL PROJECT</strong>
       </v-card-text>
     </v-card>
   </v-footer>

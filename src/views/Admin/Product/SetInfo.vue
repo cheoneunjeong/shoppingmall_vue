@@ -230,7 +230,7 @@ export default {
   created() {
     let num = this.ProductList.length;
     if (num !== 0 && this.$store.state.product.edit === false) {
-      this.code = this.ProductList[num - 1].code;
+      this.code = this.ProductList[num - 1].code + 1;
     }
   },
 };

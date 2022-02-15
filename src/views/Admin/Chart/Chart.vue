@@ -126,14 +126,15 @@ export default {
     },
     totalSales() {
       this.$store.dispatch("Total_Sales", this.input);
+      this.createChart();
     },
     getList() {
       this.$store.dispatch("Get_Ranking_List", this.type);
     },
   },
   created() {
-    this.$store.dispatch("Total_Sales", "2022");
     this.$store.dispatch("Get_Ranking_List", this.type);
+    this.$store.dispatch("Total_Sales", "2022");
   },
 };
 </script>

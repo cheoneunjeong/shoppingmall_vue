@@ -35,58 +35,6 @@
             </v-list-item-content>
           </template>
         </v-list-item>
-        <!-- <v-divider></v-divider>
-        <v-list-item>
-          <template>
-            <v-list-item-action style="width: 150px">
-              <p>2차분류</p>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title
-                ><v-col class="d-flex" cols="6" sm="3">
-                  <v-select
-                    label="Outlined style"
-                    :items="category"
-                    v-model="selected_2"
-                    dense
-                    outlined
-                  ></v-select> </v-col
-              ></v-list-item-title>
-              <v-list-item-subtitle
-                >2차 분류는 기본 분류의 하위 분류 개념이 아니므로 기본 분류
-                선택시 해당 상품이 포함될 최하위 분류만 선택하시면
-                됩니다.</v-list-item-subtitle
-              >
-            </v-list-item-content>
-          </template>
-        </v-list-item>
-        <v-divider></v-divider>
-        <v-list-item>
-          <template>
-            <v-list-item-action style="width: 150px">
-              <p>3차분류</p>
-            </v-list-item-action>
-
-            <v-list-item-content>
-              <v-list-item-title
-                ><v-col class="d-flex" cols="6" sm="3">
-                  <v-select
-                    label="Outlined style"
-                    :items="category"
-                    v-model="selected_3"
-                    dense
-                    outlined
-                  ></v-select> </v-col
-              ></v-list-item-title>
-              <v-list-item-subtitle
-                >3차 분류는 기본 분류의 하위 분류 개념이 아니므로 기본 분류
-                선택시 해당 상품이 포함될 최하위 분류만 선택하시면
-                됩니다.</v-list-item-subtitle
-              >
-            </v-list-item-content>
-          </template>
-        </v-list-item> -->
       </v-list>
     </v-card>
   </div>
@@ -108,25 +56,6 @@ export default {
         this.$store.commit("update_category", value);
       },
     },
-    // 2차, 3차 분류는 생략
-    // selected_2: {
-    //   get() {
-    //     return this.$store.state.product.category[1];
-    //   },
-    //   set(value) {
-    //     let data = { i: 1, value: value };
-    //     this.$store.commit("update_category", data);
-    //   },
-    // },
-    // selected_3: {
-    //   get() {
-    //     return this.$store.state.product.category[2];
-    //   },
-    //   set(value) {
-    //     let data = { i: 2, value: value };
-    //     this.$store.commit("update_category", data);
-    //   },
-    // },
   },
 };
 </script>
