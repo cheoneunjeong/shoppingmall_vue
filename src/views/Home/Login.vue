@@ -51,7 +51,7 @@
     </v-layout>
     <br />
     <a
-      href="https://kauth.kakao.com/oauth/authorize?client_id=48b81001e6fa3b0a79971bff9c289b97&redirect_uri=http://localhost:8080/auth&response_type=code"
+      href="https://kauth.kakao.com/oauth/authorize?client_id=48b81001e6fa3b0a79971bff9c289b97&redirect_uri=http://localhost:80/auth&response_type=code"
     >
       <img src="@/assets/kakao_login_medium_narrow.png" style="height: 40px" />
     </a>
