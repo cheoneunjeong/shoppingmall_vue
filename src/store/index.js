@@ -256,7 +256,7 @@ export default new Vuex.Store({
   actions: {
     NewUsers({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:9010/api/public/newUser', payload)
+        axios.post('http://3.39.35.173:9010/api/public/newUser', payload)
           .then(Response => {
             if (Response.data === "success") {
               if (Route.currentRoute.name === "shopSignUp") {
@@ -274,7 +274,7 @@ export default new Vuex.Store({
     },
     LoginUser({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:9010/api/public/login', payload)
+        axios.post('http://3.39.35.173:9010/api/public/login', payload)
           .then(Response => {
             localStorage.setItem('token', Response.data.token)
             commit("SET_USER", Response.data)
@@ -291,7 +291,7 @@ export default new Vuex.Store({
     },
     kakaoLogin({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/kakaologin', { params: { code: payload } })
+        axios.get('http://3.39.35.173:9010/api/public/kakaologin', { params: { code: payload } })
           .then(Response => {
             localStorage.setItem('token', Response.data.token)
             commit("SET_USER", Response.data)
@@ -306,7 +306,7 @@ export default new Vuex.Store({
     KakaoUnlink({ commit, state }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/public/kakaoUnlink')
+        axios.get('http://3.39.35.173:9010/api/public/kakaoUnlink')
           .then(Response => {
             commit('LOGOUT')
             console.log('kakaologout_success')
@@ -319,7 +319,7 @@ export default new Vuex.Store({
     UnpackToken({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/public/unpackToken')
+        axios.get('http://3.39.35.173:9010/api/public/unpackToken')
           .then(Response => {
             commit('SET_USER_REFRESH', Response.data)
           })
@@ -337,7 +337,7 @@ export default new Vuex.Store({
     Add_Role({ commit, state }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${state.UserInfo.token}`
-        axios.post('http://localhost:9010/api/public/roleAdmin', payload)
+        axios.post('http://3.39.35.173:9010/api/public/roleAdmin', payload)
           .then(Response => {
             commit('SET_USER_REFRESH', Response.data)
             alert("관리자 권한이  추가되었습니다.")
@@ -350,7 +350,7 @@ export default new Vuex.Store({
     Delete_Role({ state, commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${state.UserInfo.token}`
-        axios.delete('http://localhost:9010/api/public/roleAdmin', { params: { username: payload } })
+        axios.delete('http://3.39.35.173:9010/api/public/roleAdmin', { params: { username: payload } })
           .then(Response => {
             commit('SET_USER_REFRESH', Response.data)
             alert("관리자 권한이  삭제되었습니다.")
@@ -363,7 +363,7 @@ export default new Vuex.Store({
     Get_Categories({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/admin/category')
+        axios.get('http://3.39.35.173:9010/api/admin/category')
           .then(Response => {
             commit('SET_CATEGORIES', Response.data)
           })
@@ -376,7 +376,7 @@ export default new Vuex.Store({
     Create_category({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/category', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/category', payload)
           .then(Response => {
             commit('SET_CATEGORIES', Response.data)
             Route.push('/admin/category')
@@ -389,7 +389,7 @@ export default new Vuex.Store({
     Create_ChildCategory({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/childCategory', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/childCategory', payload)
           .then(Response => {
             commit('SET_CATEGORIES', Response.data)
             Route.push('/admin/category')
@@ -402,7 +402,7 @@ export default new Vuex.Store({
     Edit_Category({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/edit-Category', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/edit-Category', payload)
           .then(Response => {
             commit('SET_CATEGORIES', Response.data)
             Route.push('/admin/category')
@@ -415,7 +415,7 @@ export default new Vuex.Store({
     CreateProduct({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/product', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/product', payload)
           .then(Response => {
             Route.push('/admin/product')
           })
@@ -427,7 +427,7 @@ export default new Vuex.Store({
     CreateProduct_files({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/product-files',
+        axios.post('http://3.39.35.173:9010/api/admin/product-files',
           payload,
           {
             headers: {
@@ -447,7 +447,7 @@ export default new Vuex.Store({
     Get_ProductList({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/admin/product')
+        axios.get('http://3.39.35.173:9010/api/admin/product')
           .then(Response => {
             commit('SET_PRODUCTLIST', Response.data)
           })
@@ -459,7 +459,7 @@ export default new Vuex.Store({
     Delete_SelectedProduct({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/delete-product', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/delete-product', payload)
           .then(Response => {
             Route.go()
           })
@@ -471,7 +471,7 @@ export default new Vuex.Store({
     Delete_SelectedCategory({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/delete-category', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/delete-category', payload)
           .then(Response => {
             Route.go()
           })
@@ -483,7 +483,7 @@ export default new Vuex.Store({
     Get_ProductDetails({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/admin/product-details', { params: { code: payload } })
+        axios.get('http://3.39.35.173:9010/api/admin/product-details', { params: { code: payload } })
           .then(Response => {
             commit("SET_PRODUCT_DETAILS", Response.data)
             Route.push('/admin/addproduct')
@@ -496,7 +496,7 @@ export default new Vuex.Store({
     EditProduct({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.put('http://localhost:9010/api/admin/product', payload)
+        axios.put('http://3.39.35.173:9010/api/admin/product', payload)
           .then(Response => {
             Route.push('/admin/product')
           })
@@ -508,7 +508,7 @@ export default new Vuex.Store({
     Get_UserList({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/admin/userlist')
+        axios.get('http://3.39.35.173:9010/api/admin/userlist')
           .then(Response => {
             commit("SET_USERLIST", Response.data)
           })
@@ -520,7 +520,7 @@ export default new Vuex.Store({
     Give_Point({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/point', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/point', payload)
           .then(Response => {
             Route.go()
           })
@@ -532,7 +532,7 @@ export default new Vuex.Store({
     Get_PointList({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/admin/point')
+        axios.get('http://3.39.35.173:9010/api/admin/point')
           .then(Response => {
             commit("SET_POINTLIST", Response.data)
           })
@@ -544,7 +544,7 @@ export default new Vuex.Store({
     Block_user({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.put('http://localhost:9010/api/admin/block-user', payload)
+        axios.put('http://3.39.35.173:9010/api/admin/block-user', payload)
           .then(Response => {
             Route.go()
           })
@@ -556,7 +556,7 @@ export default new Vuex.Store({
     Unblock_user({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.put('http://localhost:9010/api/admin/unblock-user', payload)
+        axios.put('http://3.39.35.173:9010/api/admin/unblock-user', payload)
           .then(Response => {
             Route.go()
           })
@@ -568,7 +568,7 @@ export default new Vuex.Store({
     Update_UserInfo({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.put('http://localhost:9010/api/public/user', payload)
+        axios.put('http://3.39.35.173:9010/api/public/user', payload)
           .then(Response => {
             alert("수정이 완료되었습니다.")
             if (Route.currentRoute.name === "shopUserInfo") {
@@ -585,7 +585,7 @@ export default new Vuex.Store({
     Delete_User({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.delete('http://localhost:9010/api/public/user', { params: { username: payload } })
+        axios.delete('http://3.39.35.173:9010/api/public/user', { params: { username: payload } })
           .then(Response => {
             commit("LOGOUT")
             if (Route.currentRoute.name === "shopMyPage") {
@@ -603,7 +603,7 @@ export default new Vuex.Store({
     //쇼핑몰페이지
     Get_Menu({ commit }) {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/menu')
+        axios.get('http://3.39.35.173:9010/api/public/menu')
           .then(Response => {
             commit("SET_MENU", Response.data)
           })
@@ -614,7 +614,7 @@ export default new Vuex.Store({
     },
     Get_ProductList_shop({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/productlist-shop', { params: { code: payload } })
+        axios.get('http://3.39.35.173:9010/api/public/productlist-shop', { params: { code: payload } })
           .then(Response => {
             commit("SET_SHOP_PRODUCTLIST", Response.data)
           })
@@ -625,7 +625,7 @@ export default new Vuex.Store({
     },
     Get_ProductDetails_shop({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/product-details-shop', { params: { code: payload } })
+        axios.get('http://3.39.35.173:9010/api/public/product-details-shop', { params: { code: payload } })
           .then(Response => {
             commit("SET_PRODUCT_DETAILS_SHOP", Response.data)
           })
@@ -637,7 +637,7 @@ export default new Vuex.Store({
     Get_OrderList({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/orderlist', payload)
+        axios.post('http://3.39.35.173:9010/api/user/orderlist', payload)
           .then(Response => {
             commit("SET_ORDER_REQUEST", Response.data)
           })
@@ -646,42 +646,14 @@ export default new Vuex.Store({
           })
       })
     },
-    // Buy_items({ commit, state, dispatch }, payload) {
-    //   return new Promise((resolve, reject) => {
-    //     console.log(payload)
-    //     commit("SET_ORDERINFO", payload)
-    //     console.log(state.orderInfo)
-    //     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-    //     axios.post('http://localhost:9010/api/user/order', state.orderInfo)
-    //       .then(Response => {
-    //         commit("SET_ORDERLIST", Response.data)
-    //         dispatch("KakaoPay", payload.total)
-    //       })
-    //       .catch(Error => {
-    //         console.log("Buy_items_err")
-    //       })
-    //   })
-    // },
-    // KakaoPay({ commit }, payload) {
-    //   return new Promise((resolve, reject) => {
-    //     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-    //     axios.get('http://localhost:9010/api/user/kakaopay', { params: { total: payload } })
-    //       .then(Response => {
-    //         window.location.href = Response.data.next_redirect_pc_url
-    //       })
-    //       .catch(Error => {
-    //         console.log("kakaopay_err")
-    //       })
-    //   })
-    // },
     Buy_items({ commit, state, dispatch }, payload) {
       return new Promise((resolve, reject) => {
         commit("SET_ORDERINFO", payload)
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/kakaopay', payload)
+        axios.post('http://3.39.35.173:9010/api/user/kakaopay', payload)
           .then(Response => {
             window.location.href = Response.data.next_redirect_pc_url
-            axios.post('http://localhost:9010/api/user/order', state.orderInfo)
+            axios.post('http://3.39.35.173:9010/api/user/order', state.orderInfo)
               .then(Response => {
               })
               .catch(Error => {
@@ -696,7 +668,7 @@ export default new Vuex.Store({
     Get_OrderSuccess_List({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/user/order-success', { params: { id: payload.id } })
+        axios.get('http://3.39.35.173:9010/api/user/order-success', { params: { id: payload.id } })
           .then(Response => {
             commit("SET_ORDERLIST", Response.data)
           })
@@ -708,7 +680,7 @@ export default new Vuex.Store({
     Insert_WishItems({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/wishitems', payload)
+        axios.post('http://3.39.35.173:9010/api/user/wishitems', payload)
           .then(Response => {
             commit('SET_WISHLIST', Response.data.wishItems)
             alert("장바구니에 추가되었습니다.")
@@ -721,7 +693,7 @@ export default new Vuex.Store({
     Get_heartList({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/public/heart-items', payload)
+        axios.post('http://3.39.35.173:9010/api/public/heart-items', payload)
           .then(Response => {
             commit("SET_SHOP_PRODUCTLIST", Response.data)
           })
@@ -733,7 +705,7 @@ export default new Vuex.Store({
     deleteWishItems({ commit, state }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.put('http://localhost:9010/api/user/wishitems', payload)
+        axios.put('http://3.39.35.173:9010/api/user/wishitems', payload)
           .then(Response => {
             commit("SET_WISHLIST", Response.data)
             Route.go()
@@ -746,7 +718,7 @@ export default new Vuex.Store({
     Get_All_OrderList({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/user/orderlist')
+        axios.get('http://3.39.35.173:9010/api/user/orderlist')
           .then(Response => {
             commit("SET_ORDERLIST", Response.data)
           })
@@ -758,7 +730,7 @@ export default new Vuex.Store({
     Delete_FailOrderInfo({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.delete('http://localhost:9010/api/user/orderinfo')
+        axios.delete('http://3.39.35.173:9010/api/user/orderinfo')
           .then(Response => {
           })
           .catch(Error => {
@@ -770,7 +742,7 @@ export default new Vuex.Store({
     After_Success_Order({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.delete('http://localhost:9010/api/user/user-point')
+        axios.delete('http://3.39.35.173:9010/api/user/user-point')
           .then(Response => {
           })
           .catch(Error => {
@@ -781,7 +753,7 @@ export default new Vuex.Store({
     Save_QuestionPost({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/q-post', payload)
+        axios.post('http://3.39.35.173:9010/api/user/q-post', payload)
           .then(Response => {
             Route.push("/shop/qaboardlist")
           })
@@ -792,7 +764,7 @@ export default new Vuex.Store({
     },
     Get_QABoardList({ commit }) {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/qa-post')
+        axios.get('http://3.39.35.173:9010/api/public/qa-post')
           .then(Response => {
             commit("SET_QABOARDLIST", Response.data)
           })
@@ -803,7 +775,7 @@ export default new Vuex.Store({
     },
     Get_QAPostDetails({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/qa-post-details', { params: { num: payload } })
+        axios.get('http://3.39.35.173:9010/api/public/qa-post-details', { params: { num: payload } })
           .then(Response => {
             commit("SET_QADETAILS", Response.data)
             if (Route.currentRoute.matched[0].name === "Shop") {
@@ -821,7 +793,7 @@ export default new Vuex.Store({
     Save_AnswerPost({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/a-post', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/a-post', payload)
           .then(Response => {
             if (Route.currentRoute.matched[0].name === "Shop") {
               Route.push("/shop/qaboardlist")
@@ -838,7 +810,7 @@ export default new Vuex.Store({
     DeleteSelectedPost({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/admin/delete-post', payload)
+        axios.post('http://3.39.35.173:9010/api/admin/delete-post', payload)
           .then(Response => {
             console.log(Route.currentRoute)
             if (Route.currentRoute.name === "QADetails") {
@@ -857,7 +829,7 @@ export default new Vuex.Store({
     Save_Review({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/review', payload)
+        axios.post('http://3.39.35.173:9010/api/user/review', payload)
           .then(Response => {
             Route.push('/shop/mypage')
           })
@@ -868,7 +840,7 @@ export default new Vuex.Store({
     },
     Get_Reviews({ commit }, payload) {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:9010/api/public/review', { params: { code: payload } })
+        axios.get('http://3.39.35.173:9010/api/public/review', { params: { code: payload } })
           .then(Response => {
             commit("SET_REVIEW_LIST", Response.data)
           })
@@ -880,7 +852,7 @@ export default new Vuex.Store({
     DeleteReviews({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.post('http://localhost:9010/api/user/delete-review', payload)
+        axios.post('http://3.39.35.173:9010/api/user/delete-review', payload)
           .then(Response => {
             alert("정상적으로 삭제되었습니다.")
             if (Route.currentRoute.name === "ReviewDetails_admin") {
@@ -899,7 +871,7 @@ export default new Vuex.Store({
     Get_ReviewList({ commit }) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/admin/review-list')
+        axios.get('http://3.39.35.173:9010/api/admin/review-list')
           .then(Response => {
             commit("SET_REVIEW_LIST", Response.data)
           })
@@ -911,7 +883,7 @@ export default new Vuex.Store({
     Edit_Review({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.put('http://localhost:9010/api/user/review', payload)
+        axios.put('http://3.39.35.173:9010/api/user/review', payload)
           .then(Response => {
             Route.push("/shop")
           })
@@ -923,7 +895,7 @@ export default new Vuex.Store({
     Get_Users_review({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/user/review', { params: { id: payload } })
+        axios.get('http://3.39.35.173:9010/api/user/review', { params: { id: payload } })
           .then(Response => {
             commit("SET_REVIEW_LIST", Response.data)
           })
@@ -935,7 +907,7 @@ export default new Vuex.Store({
     Total_Sales({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/admin/sales', { params: { date: payload } })
+        axios.get('http://3.39.35.173:9010/api/admin/sales', { params: { date: payload } })
           .then(Response => {
             commit("SET_TOTAL_SALES", Response.data)
           })
@@ -947,7 +919,7 @@ export default new Vuex.Store({
     Get_Ranking_List({ commit }, payload) {
       return new Promise((resolve, reject) => {
         axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`
-        axios.get('http://localhost:9010/api/admin/ranking-list', { params: { type: payload } })
+        axios.get('http://3.39.35.173:9010/api/admin/ranking-list', { params: { type: payload } })
           .then(Response => {
             commit("SET_PRODUCTLIST", Response.data)
           })
