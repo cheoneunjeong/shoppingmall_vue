@@ -36,7 +36,7 @@
             UserInfo.auth.indexOf('ROLE_ADMIN') !== -1
           "
           router
-          :to="{ name: 'Admin' }"
+          :to="{ path: '/admin/orderlist' }"
         >
           <v-list-item-action>
             <font-awesome-icon icon="wrench" />
