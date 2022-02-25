@@ -1,4 +1,4 @@
-# shoppingmall_vue
+## 쇼핑몰 프로젝트 Vue.js
 
 ## Project setup
 ```
